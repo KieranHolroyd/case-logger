@@ -50,7 +50,7 @@
     });
     $('#continue').click(function(){
     	if(selected===0){
-      	$.post('apiSignup.php',{ 
+      	$.post('api/signupUser',{ 
           first_name: $('#s-firstname').val(),
       		last_name: $('#s-lastname').val(),
           email: $('#s-email').val(),
@@ -66,7 +66,7 @@
           }).show();
         });
       } else if(selected===1){
-      	$.post('apiLogin.php',{ 
+      	$.post('api/loginUser',{ 
           email: $('#l-email').val(),
       		password: $('#l-password').val(),
         },function(data){
