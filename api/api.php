@@ -182,7 +182,106 @@ if ($_SERVER['REQUEST_METHOD']=='POST') {
         $exec = $pdo->prepare($sql);
         $exec->execute([$_POST['id']]);
         }
-    } else if ($url=="")
+    } else if ($url=="getFullGuide") {
+        $id=$_POST['id'];
+        $sql = "SELECT * FROM guides WHERE id = :id";
+        $query = $pdo->prepare($sql);
+        $query->bindValue(':id', $id, PDO::PARAM_STR);
+        $query->execute();
+        $r = $query->fetch();
+        $arr=array();
+        $arr['title'] = $r->title;
+        $arr['body'] = $r->body;
+        $arr['author'] = $r->author;
+        $arr['time'] = $r->timestamp;
+        echo json_encode($arr);
+    } else if ($url=="getGuides") {
+        $guides=array();
+        $i=1;
+        foreach($pdo->query('SELECT * FROM guides ORDER BY title') as $r){
+            $title=$r->title;
+            $author=$r->author;
+            $body=$r->body;
+                $guides[$i]['id'] .= $r->id;
+            $guides[$i]['title'] .= $title;
+            $guides[$i]['author'] .= $author;
+            $guides[$i]['body'] .= $body;
+            $guides[$i]['time'] .= $r->timestamp;
+            $i+=1;
+        }
+        echo json_encode($guides);
+    } else if ($url=="getMoreInfo") {
+        $id=$_POST['id'];
+        $sql = "SELECT * FROM case_logs WHERE id = :id";
+        $query = $pdo->prepare($sql);
+        $query->bindValue(':id', $id, PDO::PARAM_STR);
+        $query->execute();
+        $r = $query->fetch();
+        $report=array();
+        if($r->points_awarded==1){$points="Yes";} else {$points="No";}
+        if($r->ban_awarded==1){$ban="Yes";} else {$ban="No";}
+        if($r->ts_ban==2){$ts="Yes";} else {$ts="No";}
+        if($r->ingame_ban==2){$ig="Yes";} else {$ig="No";}
+        if($r->website_ban==2){$wb="Yes";} else {$wb="No";}
+        if($r->ban_perm==2){$perm="Yes";} else {$perm="No";}
+        $report['report']['id'] .= $r->id;
+        $report['report']['lead_staff'] .= $r->lead_staff;
+        $report['report']['other_staff'] .= $r->other_staff;
+        $report['report']['typeofreport'] .= $r->type_of_report;
+        $report['report']['players'] .= $r->players;
+        $report['report']['player_guid'] .= $r->player_guid;
+        $report['report']['ltpr'] .= $r->link_to_player_report;
+        $report['report']['doe'] .= $r->description_of_events;
+        $report['report']['aop'] .= $r->amount_of_points;
+        $report['report']['evidence'] .= $r->evidence_supplied;
+        $report['report']['oc'] .= $r->offence_committed;
+        $report['report']['bm'] .= $r->ban_message;
+        $report['report']['points'] .= $points;
+        $report['report']['banned'] .= $ban;
+        $report['report']['ban_length'] .= $r->ban_length;
+        $report['report']['ts'] .= $ts;
+        $report['report']['ig'] .= $ig;
+        $report['report']['wb'] .= $wb;
+        $report['report']['perm'] .= $perm;
+        $report['report']['timestamp'] .= $r->timestamp;
+        echo json_encode($report);   
+    } else if ($url=="getSearchResults") {
+        $searchquery=$_POST['query'];
+        $sql = "SELECT * FROM `case_logs` WHERE `lead_staff` LIKE :query OR `other_staff` LIKE :query OR `description_of_events` LIKE :query OR `player_guid` LIKE :query OR `offence_committed` LIKE :query OR `amount_of_points` LIKE :query OR `evidence_supplied` LIKE :query ORDER BY id DESC";
+        $query = $pdo->prepare($sql);
+        $query->bindValue(':query', '%'.$searchquery.'%', PDO::PARAM_STR);
+        $query->execute();
+        $rf = $query->fetchAll();
+        $staffinfo=array();
+        $i=1;
+        foreach($rf as $r){
+        $reporting_player=$r->players;
+        $staffinfo['log'][$i]['id'] .= $r->id;
+        $staffinfo['log'][$i]['doe'] .= $r->description_of_events;
+        $staffinfo['log'][$i]['reporting_player']=$reporting_player;
+        $i+=1;
+        }
+        echo json_encode($staffinfo);
+    } else if ($url=="getStaffActivity") {
+        $sql="SELECT * FROM case_logs WHERE lead_staff LIKE :name OR other_staff LIKE :name ORDER BY id DESC";
+        $query = $pdo->prepare($sql);
+        $query->bindValue(':name', '%'.$_POST['id'].'%', PDO::PARAM_STR);
+        $query->execute();
+        $rows = $query->fetchAll();
+        $staffinfo=array();
+        $i=1;
+        foreach($rows as $r){
+        if (strpos($r->other_staff, $_POST['id']) !== false) {
+            $staffinfo['log'][$i]['other_staff'] = true;
+        }
+        $reporting_player=$r->players;
+        $staffinfo['log'][$i]['id'] .= $r->id;
+        $staffinfo['log'][$i]['doe'] .= $r->description_of_events;
+        $staffinfo['log'][$i]['reporting_player']=$reporting_player;
+        $i+=1;
+        }
+        echo json_encode($staffinfo);       
+    } else if 
 } else if ($_SERVER['REQUEST_METHOD']=='GET') {
     if ($url=="dailyCases") {
         $today=0;$yesterday=0;$twodays=0;$threedays=0;$fourdays=0;
