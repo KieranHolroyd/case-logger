@@ -195,21 +195,6 @@ if ($_SERVER['REQUEST_METHOD']=='POST') {
         $arr['author'] = $r->author;
         $arr['time'] = $r->timestamp;
         echo json_encode($arr);
-    } else if ($url=="getGuides") {
-        $guides=array();
-        $i=1;
-        foreach($pdo->query('SELECT * FROM guides ORDER BY title') as $r){
-            $title=$r->title;
-            $author=$r->author;
-            $body=$r->body;
-                $guides[$i]['id'] .= $r->id;
-            $guides[$i]['title'] .= $title;
-            $guides[$i]['author'] .= $author;
-            $guides[$i]['body'] .= $body;
-            $guides[$i]['time'] .= $r->timestamp;
-            $i+=1;
-        }
-        echo json_encode($guides);
     } else if ($url=="getMoreInfo") {
         $id=$_POST['id'];
         $sql = "SELECT * FROM case_logs WHERE id = :id";
@@ -281,7 +266,153 @@ if ($_SERVER['REQUEST_METHOD']=='POST') {
         $i+=1;
         }
         echo json_encode($staffinfo);       
-    } else if 
+    } else if ($url=="getStaffMoreInfo") {
+        $id=$_POST['id'];
+        $sql="SELECT * FROM users WHERE id = :name";
+        $query = $pdo->prepare($sql);
+        $query->bindValue(':name', $_POST['id'], PDO::PARAM_STR);
+        $query->execute();
+        $r = $query->fetch();
+        $staffname=$r->username;
+        $sql2="SELECT * FROM case_logs WHERE lead_staff LIKE :name OR other_staff LIKE :name ORDER BY id DESC";
+        $query2 = $pdo->prepare($sql2);
+        $query2->bindValue(':name', '%'.$staffname.'%', PDO::PARAM_STR);
+        $query2->execute();
+        $cases = $query2->fetchAll();
+        $cases_count=count($cases);
+        $i=0;
+        foreach($cases as $case){
+        if((strtotime($case->timestamp)-time())>(-604800)){
+            $i++;
+            }
+        }
+        $staffinfo=array();
+        //Check for activity warnings based on current weekly case count.
+        if($r->rank_lvl >= 7){
+            if($i<10){
+            $staffinfo['activity_warning'] .= true;
+        }
+        }
+        $staffinfo['id'] .= $r->id;
+        $staffinfo['name'] .= $staffname;
+        $staffinfo['rank'] .= $r->rank;
+        $staffinfo['rank_lvl'] .= $r->rank_lvl;
+        $staffinfo['team'] .= $r->staff_team;
+        $staffinfo['casecount'] .= $cases_count;
+        $staffinfo['casecount_week'] .= $i;
+        echo json_encode($staffinfo);
+    } else if ($url=="getCases") {
+        $offset=$_POST['offset'];
+        if($offset <= 0){
+            $offset=0;
+        }
+        $sql = "SELECT * FROM case_logs ORDER BY id DESC LIMIT 100 OFFSET $offset";
+        $query = $pdo->prepare($sql);
+        $query->execute();
+        $rows = $query->fetchAll();
+        $row_count=count($rows);
+        $reports=array();
+        $reports['info']['count'] .= $row_count;
+        $reports['info']['offset'] .= $offset;
+        $i=1;
+        foreach($rows as $row){
+            $reporting_player=$row->players;
+            $reports['caseno'][$i]['id'] .= $row->id;
+                $reports['caseno'][$i]['lead_staff'] .= $row->lead_staff;
+            $reports['caseno'][$i]['typeofreport'] .= $row->type_of_report;
+            $reports['caseno'][$i]['ltpr'] .= $row->link_to_player_report;
+            $reports['caseno'][$i]['pa'] .= $row->points_awarded;
+            $reports['caseno'][$i]['ba'] .= $row->ban_awarded;
+            $reports['caseno'][$i]['timestamp'] .= $row->timestamp;
+            $reports['caseno'][$i]['reporting_player']=$reporting_player;
+            $i+=1;
+        }
+        echo json_encode($reports);   
+    } else if ($url=="setStaffTeam") {
+        $logged_in=unserialize($_COOKIE['userArrayPHP']);
+        if($logged_in['info']['slt']==1 || $logged_in['info']['dev']==1){
+            $sql="UPDATE users SET staff_team = :team WHERE id = :id";
+            $id=$_POST['id'];
+            $team=$_POST['team'];
+            $exec = $pdo->prepare($sql);
+        $exec->execute(['team' => $team, 'id' => $id]);
+        }
+    } else if ($url=="setStaffRank") {
+        $logged_in=unserialize($_COOKIE['userArrayPHP']);
+        if($logged_in['info']['slt']==1 || $logged_in['info']['dev']==1){
+         $sql="UPDATE users SET rank = :rank , rank_lvl = :rank_lvl , sRep = 1 , SLT = :slt WHERE id = :id";
+	    $id=$_POST['id'];
+        $rank=$_POST['rank'];
+        $slt = 0;
+         if($rank==9){
+  	        $rankname="Trial Staff";
+        } elseif($rank==8){
+    	$rankname="Moderator";
+        } elseif($rank==7){
+  	    $rankname="Administrator";
+        } elseif($rank==6){
+  	    $rankname="Senior Administrator";
+        $slt = 1;
+        }
+        $exec = $pdo->prepare($sql);
+        $exec->execute(['rank' => $rankname, 'rank_lvl' => $rank, 'slt' => $slt, 'id' => $id]);
+        }
+    } else if ($url=="submitCase") {
+        $logged_in=unserialize($_COOKIE['userArrayPHP']);
+        if($logged_in['permissions']['submitReport']==1){
+        $ls = $_POST['lead_staff'];
+        $os = $_POST['other_staff'];
+        $doe = $_POST['description_of_events'];
+        $guid = $_POST['player_guid'];
+        $ltpr = $_POST['link_to_player_report'];
+        $oc = $_POST['offence_committed'];
+        $pa = $_POST['points_awarded'];
+        $aop = $_POST['ammount_of_points'];
+        $es = $_POST['evidence_supplied'];
+        $ba = $_POST['ban_awarded'];
+        $bl = $_POST['ban_length'];
+        $bm = $_POST['ban_message'];
+        $ts = $_POST['ts_ban'];
+        $ig = $_POST['ingame_ban'];
+        $wb = $_POST['website_ban'];
+        $perm = $_POST['ban_perm'];
+        $players = $_POST['players'];
+        $playersArray = array();
+        $i=0;
+            foreach($players as $players){
+            $i++;
+            $playersArray[$i]['type'] .= $players['type'];
+            $playersArray[$i]['name'] .= $players['name'];
+            $playersArray[$i]['guid'] .= $players['guid'];
+            }
+        $torep = $_POST['type_of_report'];
+            $sql = "INSERT INTO case_logs (`lead_staff`, `other_staff`, `description_of_events`, `player_guid`, `link_to_player_report`, `offence_committed`, `points_awarded`, `amount_of_points`, `evidence_supplied`, `ban_awarded`, `ban_length`, `ban_message`, `ts_ban`, `ingame_ban`, `website_ban`, `ban_perm`, `players`, `type_of_report`) VALUES (:ls, :os, :doe, :guid, :ltpr, :oc, :pa, :aop, :es, :ba, :bl, :bm, :ts, :ig, :wb, :perm, :playersArray, :torep)";
+            $query=$pdo->prepare($sql);
+            $query->bindValue(':ls', $ls, PDO::PARAM_STR);
+            $query->bindValue(':os', $os, PDO::PARAM_STR);
+            $query->bindValue(':doe', $doe, PDO::PARAM_STR);
+            $query->bindValue(':guid', $guid, PDO::PARAM_STR);
+            $query->bindValue(':ltpr', $ltpr, PDO::PARAM_STR);
+            $query->bindValue(':oc', $oc, PDO::PARAM_STR);
+            $query->bindValue(':pa', $pa, PDO::PARAM_STR);
+            $query->bindValue(':aop', $aop, PDO::PARAM_STR);
+            $query->bindValue(':es', $es, PDO::PARAM_STR);
+            $query->bindValue(':ba', $ba, PDO::PARAM_STR);
+            $query->bindValue(':bl', $bl, PDO::PARAM_STR);
+            $query->bindValue(':bm', $bm, PDO::PARAM_STR);
+            $query->bindValue(':ts', $ts, PDO::PARAM_STR);
+            $query->bindValue(':ig', $ig, PDO::PARAM_STR);
+            $query->bindValue(':wb', $wb, PDO::PARAM_STR);
+            $query->bindValue(':perm', $perm, PDO::PARAM_STR);
+            $query->bindValue(':playersArray', json_encode($playersArray), PDO::PARAM_STR);
+            $query->bindValue(':torep', $torep, PDO::PARAM_STR);
+            $query->execute();
+            print_r($query->errorinfo());
+            print_r($query);
+        } else {
+            echo "Insufficient Permissions";
+        }
+    }
 } else if ($_SERVER['REQUEST_METHOD']=='GET') {
     if ($url=="dailyCases") {
         $today=0;$yesterday=0;$twodays=0;$threedays=0;$fourdays=0;
@@ -337,7 +468,53 @@ if ($_SERVER['REQUEST_METHOD']=='POST') {
         $arr['threeweeks'] .= $threeweeks;
         $arr['onemonth'] .= $onemonth;
         echo json_encode($arr);
-    }
+    } else if ($url=="getGuides") {
+        $guides=array();
+        $i=1;
+        foreach($pdo->query('SELECT * FROM guides ORDER BY title') as $r){
+            $title=$r->title;
+            $author=$r->author;
+            $body=$r->body;
+                $guides[$i]['id'] .= $r->id;
+            $guides[$i]['title'] .= $title;
+            $guides[$i]['author'] .= $author;
+            $guides[$i]['body'] .= $body;
+            $guides[$i]['time'] .= $r->timestamp;
+            $i+=1;
+        }
+        echo json_encode($guides);
+    } else if ($url=="getStaffList") {
+        $staff=array();
+        $i=1;
+        foreach($pdo->query('SELECT * FROM users ORDER BY username') as $r){
+            $staffname=$r->username;
+            $staff[$i]['name'] .= $staffname;
+            $i+=1;
+        }
+        echo json_encode($staff);       
+    } else if ($url=="getStaffTeam") {
+        $staff=array();
+        $i=1;
+        foreach($pdo->query('SELECT * FROM users ORDER BY rank_lvl, staff_team, username ASC') as $r){
+            $staffname=$r->username;
+            $staff[$i]['id'] .= $r->id;
+            $staff[$i]['name'] .= $staffname;
+            $staff[$i]['team'] .= $r->staff_team;
+            $staff[$i]['rank'] .= $r->rank;
+            $i+=1;
+        }
+        echo json_encode($staff);  
+    } else if ($url=="getSuggestions") {
+       $arr=array();
+        $i=1;
+        foreach($pdo->query('SELECT * FROM suggestions ORDER BY id DESC') as $r){
+            $arr[$i]['id'] .= $r->id;
+            $arr[$i]['name'] .= $r->name;
+            $arr[$i]['suggestion'] .= $r->suggestion;
+                $i++;
+        }
+        echo json_encode($arr); 
+    } else
 } else {
     http_response_code(400);
 }
