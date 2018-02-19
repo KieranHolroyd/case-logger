@@ -1,3 +1,5 @@
-# Purple-Iron-Bulldog
-
-## A case logging application for PsiSyn
+**Operation Purple Iron Bulldog** <br>
+*The New PsiSyn Staff Case Logger, created by* <br>
+- Kieran Holroyd
+- tagKnife
+- Justin Alexander
