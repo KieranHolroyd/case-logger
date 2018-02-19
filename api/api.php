@@ -514,7 +514,7 @@ if ($_SERVER['REQUEST_METHOD']=='POST') {
                 $i++;
         }
         echo json_encode($arr); 
-    } else
+    }
 } else {
     http_response_code(400);
 }
