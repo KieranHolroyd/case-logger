@@ -6,5 +6,8 @@ Vue.component('task-list', {
 });
 
 new Vue({
-    el: '#root'
+    el: '#root',
+    data: {
+        message: 'Hello, World'
+    }
 });
