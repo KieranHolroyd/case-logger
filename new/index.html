@@ -10,9 +10,8 @@
 </head>
 <body>
     <div id="root">
-        <task-list>
-            <task>{{ message.split('').reverse().join('') }}</task>
-        </task-list>
+        <input type="text" v-model="message">
+        <p v-text="message"></p>
     </div>
     <script src="main.js"></script>
 </body>
