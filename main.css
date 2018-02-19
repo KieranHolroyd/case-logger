@@ -1,0 +1,16 @@
+        *{
+            font-family: 'Roboto', sans-serif;
+        }
+        .color-red{
+            color: #f00;
+        }
+        .color-blue{
+            color: #00f;
+        }
+        .is-loading{
+            background-color: #555;
+            color: #fff;
+        }
+        task-list{
+            background-color: #333;
+        }
