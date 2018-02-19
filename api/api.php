@@ -175,9 +175,70 @@ if ($_SERVER['REQUEST_METHOD']=='POST') {
         } else {
             echo "Insufficient Permissions.";
         }
-    }
+    } else if ($url=="removeStaff"){
+        $logged_in=unserialize($_COOKIE['userArrayPHP']);
+        if($logged_in['info']['slt']==1 || $logged_in['info']['dev']==1){
+        $sql="DELETE FROM users WHERE id=?";
+        $exec = $pdo->prepare($sql);
+        $exec->execute([$_POST['id']]);
+        }
+    } else if ($url=="")
 } else if ($_SERVER['REQUEST_METHOD']=='GET') {
-
+    if ($url=="dailyCases") {
+        $today=0;$yesterday=0;$twodays=0;$threedays=0;$fourdays=0;
+        foreach($pdo->query('SELECT * FROM case_logs') as $r){
+        $timeinseconds=strtotime($r->timestamp)-time();
+        if($timeinseconds > -86400){
+            $today++;
+        }
+        if($timeinseconds > -172800 && $timeinseconds < -86400){
+            $yesterday++;
+        }
+        if($timeinseconds > -259200 && $timeinseconds < -172800){
+            $twodays++;
+        }
+        if($timeinseconds > -345600 && $timeinseconds < -259200){
+            $threedays++;
+        }
+        if($timeinseconds > -432000 && $timeinseconds < -345600){
+            $fourdays++;
+        }
+        }
+        $arr=array();
+        $arr['today'] .= $today;
+        $arr['yesterday'] .= $yesterday;
+        $arr['twodays'] .= $twodays;
+        $arr['threedays'] .= $threedays;
+        $arr['fourdays'] .= $fourdays;
+        echo json_encode($arr);
+    } else if ($url=="weeklyCases"){
+        $thisweek=0;$lastweek=0;$twoweeks=0;$threeweeks=0;$onemonth=0;
+        foreach($pdo->query('SELECT * FROM case_logs') as $r){
+        $timeinseconds=strtotime($r->timestamp)-time();
+        if($timeinseconds > -604800){
+            $thisweek++;
+        }
+        if($timeinseconds > -1209600 && $timeinseconds < -604800){
+            $lastweek++;
+        }
+        if($timeinseconds > -1814400 && $timeinseconds < -1209600){
+            $twoweeks++;
+        }
+        if($timeinseconds > -2419200 && $timeinseconds < -1814400){
+            $threeweeks++;
+        }
+        if($timeinseconds > -3024000 && $timeinseconds < -2419200){
+            $onemonth++;
+        }
+        }
+        $arr=array();
+        $arr['thisweek'] .= $thisweek;
+        $arr['lastweek'] .= $lastweek;
+        $arr['twoweeks'] .= $twoweeks;
+        $arr['threeweeks'] .= $threeweeks;
+        $arr['onemonth'] .= $onemonth;
+        echo json_encode($arr);
+    }
 } else {
     http_response_code(400);
 }

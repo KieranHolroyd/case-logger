@@ -1,7 +1,7 @@
 <?php 
 	$host = 'localhost';
 	$user = 'psisyn_caselogger';
-	$password = 'Ih0DzqPjcng7Koll!';
+	$password = '';
 	$dbname = 'Psisyn_caselogger';
 	$dsn = 'mysql:host='.$host.';dbname='.$dbname;
 	$pdo = new PDO($dsn, $user, $password);
