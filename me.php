@@ -17,7 +17,7 @@
 	function getStaffActivity(){
     var other_staff;
     var other_staff_text;
-    $.post('getStaffActivity.php',{ 'id':userArray.info.username },function(data){
+    $.post('api/getStaffActivity',{ 'id':userArray.info.username },function(data){
       activity="";
       moreinfo=JSON.parse(data);
       for (let i = 1; i < Object.keys(moreinfo.log).length + 1; i++) {
@@ -41,7 +41,7 @@
     players_involved = "";
     playersArray = "";
     player_title = "";
-  	$.post('getMoreInfo.php',{ 'id':id },function(data){
+  	$.post('api/getMoreInfo',{ 'id':id },function(data){
       moreinfo=JSON.parse(data);
       if(moreinfo.report.players!=="[]" && moreinfo.report.players!==""){
         playersArray=JSON.parse(moreinfo.report.players);
@@ -60,7 +60,7 @@
   function getMoreInfo(){
     actwarn_start = "";
     actwarn_end = "";
-    $.post('getStaffMoreInfo.php',{ 'id':userArray.info.id },function(data){
+    $.post('api/getStaffMoreInfo',{ 'id':userArray.info.id },function(data){
       moreinfo=JSON.parse(data);
       if(moreinfo.activity_warning==true){actwarn_start="<span style='color: orange;' title='Activity Warning'>";actwarn_end="</span>";}
       setMoreInfo="<h1>Information About "+moreinfo.name+"</h1><p>Your Rank: "+moreinfo.rank+"</p><p>Your Total All Time Cases: "+moreinfo.casecount+"</p> <p>"+actwarn_start+moreinfo.casecount_week+" Of Those Were Logged This week"+actwarn_end+"</p>";

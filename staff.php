@@ -24,7 +24,7 @@
   let stafftextc = "";
   function getStaffTeam(){
     list="";
-    $.post('getStaffTeam.php',{ 'offset':offset },function(data){
+    $.get('api/getStaffTeam', function(data){
       staff=JSON.parse(data);
       for (let i = 1; i < Object.keys(staff).length + 1; i++) {
         if(staff[i].team==1){staffbgc="#BFFF00";} 
@@ -44,7 +44,7 @@
     $('#staff_info').html("<p>Loading...</p>");
     actwarn_start = "";
     actwarn_end = "";
-    $.post('getStaffMoreInfo.php',{ 'id':id },function(data){
+    $.post('api/getStaffMoreInfo',{ 'id':id },function(data){
       moreinfo=JSON.parse(data);
       if(moreinfo.team==1){staffbgc="#BFFF00";} 
       else if (moreinfo.team==2){staffbgc="#429ef4";}
@@ -73,13 +73,13 @@
   	$('#assignTeamMenu').slideToggle(250);
   }
 	function assign_rank(id, rank){
-  	$.post('setStaffRank.php',{ 'id':id,'rank':rank },function(data){
+  	$.post('api/setStaffRank',{ 'id':id,'rank':rank },function(data){
     	getStaffTeam();
       $('#staff_info').html("<h1>Select A Staff Member To Get Statistics</h1>");
     });
   }
   function assign_team(id, team){
-  	$.post('setStaffTeam.php',{ 'id':id,'team':team },function(data){
+  	$.post('api/setStaffTeam',{ 'id':id,'team':team },function(data){
     	getStaffTeam();
       $('#staff_info').html("<h1>Select A Staff Member To Get Statistics</h1>");
     });
@@ -93,7 +93,7 @@
     },3000)
   }
   function removeFromLoggerConfirm(id){
-  	$.post('removeStaff.php',{ 'id':id },function(data){
+  	$.post('api/removeStaff',{ 'id':id },function(data){
     	getStaffTeam();
       $('#staff_info').html("<h1>Select A Staff Member To Get Statistics</h1>");
     });
@@ -102,7 +102,7 @@
     $('#staff_info').html("<p>Loading...</p>");
     var other_staff;
     var other_staff_text;
-    $.post('getStaffActivity.php',{ 'id':name },function(data){
+    $.post('api/getStaffActivity',{ 'id':name },function(data){
       $('#staff_info').css('background', '#444');
       activity="";
       moreinfo=JSON.parse(data);
@@ -128,7 +128,7 @@
     players_involved = "";
     playersArray = "";
     player_title = "";
-  	$.post('getMoreInfo.php',{ 'id':id },function(data){
+  	$.post('api/getMoreInfo',{ 'id':id },function(data){
       $('#staff_info').css('background', '#444');
       moreinfo=JSON.parse(data);
       if(moreinfo.report.players!=="[]" && moreinfo.report.players!==""){

@@ -16,7 +16,7 @@
   var suggestion = "";
   var name = "";
 	function getSuggestions(){
-    $.post('getSuggestions.php',{},function(data){
+    $.get('api/getSuggestions',function(data){
       moreinfo=JSON.parse(data);
       for (let i = 1; i < Object.keys(moreinfo).length + 1; i++) {
         setMoreInfo += '<div class="staffActivityCard" id="'+moreinfo[i].id+'" onclick="more('+moreinfo[i].id+')"><span id="name">'+moreinfo[i].name+'</span><br><span id="suggestion">'+moreinfo[i].suggestion+'</span></div>'

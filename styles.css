@@ -1,38 +1,51 @@
-  *{
-    font-family: 'Roboto', sans-serif;
-    pointer-events:auto;
-  }
-  
-  #nav {
+*{
+	font-family: 'Roboto', sans-serif;
+	pointer-events:auto;
+	margin: 0;
+	padding: 0;
+	outline: none;
+}
+
+body{
+	background-color: #424242;
+}
+
+#nav{
   	position: fixed;
     top: 25px;right: 50px;
-  	width: 200px;
+  	width: 300px;
     border-radius: 25px;
     height: 50px;
-    background-color: #212121;
+    background-color: #ddd;
     padding: 0 25px;
-    color: #fff;
+    color: #000;
     font-family: 'Roboto', sans-serif;
     cursor: pointer;
     transition: box-shadow,opacity 300ms;
     opacity: 0.2;
     z-index: 10;
   }
-
 	#nav:hover{
 		box-shadow: 0 0 10px 0 rgba(0,0,0,0.2);
     opacity: 1;
     z-index: 20;
-  }
-  
+	}
   #nav span {
   	color: #777;
   }
-
+  #nav a {
+	  padding-top: 15px;
+	  color: #000;
+	  display: table-cell;
+	  vertical-align:middle;
+  }
+  #nav a:hover {
+	  color: #333;
+  }
   #moreMenu {
   	display: none;
   	position: fixed;
-    background-color: #424242;
+    background-color: #ddd;
     border-radius: 10px;
     padding: 10px;
     opacity: 0.2;
@@ -42,15 +55,13 @@
     width: 200px;
     height: 400px;
   }
-
   #moreMenu:hover{
   	opacity: 1;
   }
-
   #contextMenu {
   	display: none;
   	position: fixed;
-    background-color: #555;
+    background-color: #ddd;
     border-radius: 10px;
     padding: 10px;
     z-index: 999;
@@ -59,7 +70,6 @@
     width: 200px;
     height: 400px;
   }
-
   #topLevel {
   	width: 100vw;
     height: 100vh;
@@ -69,3 +79,30 @@
   	z-index: 0;
     background-color: transparent;
   }
+.navCard{
+	float: left;
+	clear: none;
+	display: inline-block;
+	width: calc(25% - 20px);
+	height: 250px;
+	overflow-y: auto;
+	background-color: #616161;
+	margin: 10px 10px;
+	border-radius: 2.5px;
+	box-shadow: 0 0 10px 0 rgba(0,0,0,0.1);
+	transition: 200ms;
+	color: #fff;
+}
+.navCard:hover{
+	background-color: #757575;
+	box-shadow: 0 0 10px 0 rgba(0,0,0,0.4);
+}
+.navCard-items{
+	margin: 20px;
+}
+.navCard .title{
+	font-weight: bold;
+}
+.navCard .shortcontent{
+	margin-top: 15px;
+}

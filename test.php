@@ -1,71 +1,59 @@
-<?php session_start(); include "head.php"; ?>
-  <?php include "navbar.php"; ?>
-  <style>
-        .newsissue{
-            float: left;
-            clear: none;
-            display: inline-block;
-            width: calc(25% - 1px);
-            height: 250px;
-            overflow-y: auto;
-            background-color: #444;
-            margin: 0px;
-            border-right: 1px solid #333;
-            border-bottom: 1px solid #333;
-        }
-        .newsissue-items{
-            margin: 20px;
-        }
-        .newsissue .title{
-            font-weight: bold;
-        }
-        .newsissue .shortcontent{
-            margin-top: 15px;
-        }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+	<style>
+        
   </style>
   <a href="logger.php">
-	<div class="newsissue">
-		<div class="newsissue-items">
+	<div class="navCard">
+		<div class="navCard-items">
 			<p class="title">Test</p>
 			<p class="shortcontent">Go here to log your cases.</p>
 		</div>
 	</div>  
   </a>
   <a href="logger.php">
-	<div class="newsissue">
-		<div class="newsissue-items">
+	<div class="navCard">
+		<div class="navCard-items">
 			<p class="title">Test</p>
 			<p class="shortcontent">Go here to log your cases.</p>
 		</div>
 	</div>  
   </a>
   <a href="logger.php">
-	<div class="newsissue">
-		<div class="newsissue-items">
+	<div class="navCard">
+		<div class="navCard-items">
 			<p class="title">Test</p>
 			<p class="shortcontent">Go here to log your cases.</p>
 		</div>
 	</div>  
   </a>
   <a href="logger.php">
-	<div class="newsissue">
-		<div class="newsissue-items">
+	<div class="navCard">
+		<div class="navCard-items">
 			<p class="title">Test</p>
 			<p class="shortcontent">Go here to log your cases.</p>
 		</div>
 	</div>  
   </a>
   <a href="logger.php">
-	<div class="newsissue">
-		<div class="newsissue-items">
+	<div class="navCard">
+		<div class="navCard-items">
 			<p class="title">Test</p>
 			<p class="shortcontent">Go here to log your cases.</p>
 		</div>
 	</div>  
   </a>
   <a href="logger.php">
-	<div class="newsissue">
-		<div class="newsissue-items">
+	<div class="navCard">
+		<div class="navCard-items">
 			<p class="title">Test</p>
 			<p class="shortcontent">Go here to log your cases.</p>
 		</div>
@@ -74,3 +62,5 @@
 </body>
 <!--Created By Kieran Holroyd-->
 </html>
+
+  

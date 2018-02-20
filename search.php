@@ -25,7 +25,7 @@ $searchQuery=$_GET['query'];
     $('#reports').html('Searching...');
     var other_staff;
     var other_staff_text;
-    $.post('getSearchResults.php',{'query':query},function(data){
+    $.post('api/getSearchResults',{'query':query},function(data){
       activity="";
       moreinfo=JSON.parse(data);
       if(moreinfo=="" || moreinfo=="{}"){
@@ -52,7 +52,7 @@ $searchQuery=$_GET['query'];
     players_involved = "";
     playersArray = "";
     player_title = "";
-  	$.post('getMoreInfo.php',{ 'id':id },function(data){
+  	$.post('api/getMoreInfo',{ 'id':id },function(data){
       moreinfo=JSON.parse(data);
       if(moreinfo.report.players!=="[]" && moreinfo.report.players!==""){
         playersArray=JSON.parse(moreinfo.report.players);

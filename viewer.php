@@ -24,7 +24,7 @@
   var player_punished, player_banned, moreinfo, setMoreInfo, reporting_player;
   function getReports(){
     list="";
-    $.post('get.php',{ 'offset':offset },function(data){
+    $.post('api/getCases',{ 'offset':offset },function(data){
       cases=JSON.parse(data);
       if(cases.info.count < 100){
         $('#loadMore').hide();
@@ -51,7 +51,7 @@
     players_involved="";
     playersArray="";
     player_title="";
-    $.post('getMoreInfo.php',{ 'id':id },function(data){
+    $.post('api/getMoreInfo',{ 'id':id },function(data){
       moreinfo=JSON.parse(data);
       if(moreinfo.report.players!=="[]" && moreinfo.report.players!==""){
         playersArray=JSON.parse(moreinfo.report.players);

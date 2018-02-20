@@ -150,7 +150,7 @@
         };
       });
       playerArray.splice(0,1);
-    	$.post('submit.php',{
+    	$.post('api/submitCase',{
       	'lead_staff': $('#lsm').val(),
         'other_staff': otherStaffParsed,
         'description_of_events': $('#doi').val(),
@@ -271,7 +271,7 @@
       gsl();
     });
     function gsl(){
-      $.post('getStaffList.php',{},function(data){
+      $.get('api/getStaffList', function(data){
         staff=JSON.parse(data);
         for (let i = 1; i < Object.keys(staff).length + 1; i++) {
           staffList += "<option value='"+staff[i].name+"'>"+staff[i].name+"</option>";

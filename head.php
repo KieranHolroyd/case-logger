@@ -11,17 +11,20 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.css">
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="stylesold.css">
   <link rel="stylesheet" href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
   <script src="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="main.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/dragUI.js"></script>
+  <script src="js/modal.js"></script>
 </head>
 <body>
   <script>
     let loginToken = "<?php echo $_COOKIE['LOGINTOKEN'];?>";
     var userArray;
   	function userArraySet (){
-      $.post("apiGetUserInfo", {}, function(data){
+      $.get("api/getUserInfo", function(data){
         user=JSON.parse(data);
         userArray=user;
         if(userArray.info.id===""){
@@ -46,7 +49,7 @@
     }
     $(window).on('load', userArraySet());
     function logout(){
-    	$.post("apiLogout", {token: loginToken}, function(data){
+    	$.post("api/logoutUser", {token: loginToken}, function(data){
         window.replace("passport")
         console.log(data)
       })

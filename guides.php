@@ -34,7 +34,7 @@
   }
 	function getGuides(){
     list="";
-    $.post('getGuides.php',{},function(data){
+    $.get('api/getGuides',function(data){
       guides=JSON.parse(data);
       for (let i = 1; i < Object.keys(guides).length + 1; i++) {
         list += '<div class="case" onclick="getFullGuide('+guides[i].id+')"><span style="float: right;font-size: 12px;">Authored By: '+guides[i].author+'</span><span style="font-size: 25px;">'+guides[i].title+'<br></span></div>';
@@ -45,7 +45,7 @@
   function getFullGuide(id){
     $('#guide_info').html("<p>Loading...</p>");
     item = "";
-    $.post('getFullGuide.php', { 'id':id }, function(data){
+    $.post('api/getFullGuide', { 'id':id }, function(data){
       guide = JSON.parse(data);
       if(userArray.info.slt==1){
       	item = "<button onclick='edit("+id+")' style='margin: 0;width: 100%;'>Edit This</button>";
@@ -56,7 +56,7 @@
   }
   getGuides();
   function newGuide(){
-  	$.post('addNewGuide.php', {
+  	$.post('api/newGuide', {
     	'title':$('#Gtitle').val(),
       'body':editor.getData()
     }, function(data){

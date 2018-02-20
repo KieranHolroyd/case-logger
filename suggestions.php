@@ -14,7 +14,7 @@
   <button onclick="submit();" class="submitBtn">Submit</button>
   <script>
     function submit(){
-    	$.post('addSuggestion.php',{
+    	$.post('api/addSuggestion',{
       	'name': $('#sas').text(),
         'suggestion': $('#suggestion').val(),
         'csrf': $('#csrf').val()
