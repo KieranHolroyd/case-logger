@@ -112,7 +112,28 @@ body{
 	transition: 200ms;
 	color: #fff;
 }
+
+.navCard-small{
+	float: left;
+	clear: none;
+	display: inline-block;
+	width: calc(33% - 16px);
+	height: 150px;
+	overflow-y: auto;
+	background-color: #616161;
+	margin: 10px 10px;
+	border-radius: 2.5px;
+	box-shadow: 0 0 10px 0 rgba(0,0,0,0.1);
+	transition: 200ms;
+	color: #fff;
+}
+
 .navCard:hover{
+	background-color: #757575;
+	box-shadow: 0 0 10px 0 rgba(0,0,0,0.4);
+}
+
+.navCard-small:hover{
 	background-color: #757575;
 	box-shadow: 0 0 10px 0 rgba(0,0,0,0.4);
 }

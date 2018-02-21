@@ -12,23 +12,23 @@
         
   </style>
   <a href="logger.php">
-	<div class="navCard">
+	<div class="navCard-small">
 		<div class="navCard-items">
-			<p class="title">Test</p>
+			<p class="title">Log Case</p>
 			<p class="shortcontent">Go here to log your cases.</p>
 		</div>
 	</div>  
   </a>
   <a href="logger.php">
-	<div class="navCard">
+	<div class="navCard-small">
 		<div class="navCard-items">
-			<p class="title">Test</p>
-			<p class="shortcontent">Go here to log your cases.</p>
+			<p class="title">Guides</p>
+			<p class="shortcontent">Tutorials and Operating Procedures.</p>
 		</div>
 	</div>  
   </a>
   <a href="logger.php">
-	<div class="navCard">
+	<div class="navCard-small">
 		<div class="navCard-items">
 			<p class="title">Test</p>
 			<p class="shortcontent">Go here to log your cases.</p>
