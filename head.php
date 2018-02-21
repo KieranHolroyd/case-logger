@@ -28,21 +28,21 @@
         user=JSON.parse(data);
         userArray=user;
         if(userArray.info.id===""){
-          if(window.location.pathname!=="/sites/SVTeR8KxJVbx/holdingpage" && window.location.pathname!=="/sites/SVTeR8KxJVbx/passport"){
+          if(window.location.pathname!=="/Purple-Iron-Bulldog/holdingpage" && window.location.pathname!=="/Purple-Iron-Bulldog/passport"){
             location.replace('holdingpage');
           }
         }
         if(userArray.info.slt==="1" || userArray.info.dev=="1"){
-          $('#navBar').prepend("<a href='viewer'>Case Viewer</a><a href='staff'>Staff Manager</a>");
+          $('#moreMenu').prepend("<a href='viewer'>Case Viewer</a><a href='search?type=cases'>Case Search</a><a href='staff'>Staff Manager</a>");
         }
         if(userArray.info.dev=="1"){
-          $('#navBar').prepend("<a href='viewSuggestions'>View Suggestions</a>");
+          $('#moreMenu').prepend("<a href='viewSuggestions'>View Suggestions</a>");
         }
         $('#welcome').html('Hello, '+userArray.info.username);
         $('#lsm').val(userArray.info.username);
         $('#sas').html(userArray.info.username);
-        $('#navBar').append("<a href='staffStatistics'>Staff Statistics</a><a onclick='logout();'>Logout</a>");
-        $('#navBar').delay(150).prepend("<a href='./'>Case Logger</a><a href='suggestions'>Suggestion Box</a><a href='me'>My Stats</a><a href='guides'>Guides</a>");
+        $('#moreMenu').append("<a href='staffStatistics'>Staff Statistics</a><a onclick='logout();'>Logout</a>");
+        $('#moreMenu').delay(150).prepend("<a href='./'>Case Logger</a><a href='suggestions'>Suggestion Box</a><a href='me'>My Stats</a><a href='guides'>Guides</a>");
         $('#usernameNav').text(" | "+userArray.info.firstname+" "+userArray.info.lastname);
         userArrayLoaded();
     	});
@@ -50,10 +50,9 @@
     $(window).on('load', userArraySet());
     function logout(){
     	$.post("api/logoutUser", {token: loginToken}, function(data){
-        window.replace("passport")
+        window.location.replace("passport")
         console.log(data)
       })
       userArray = {};
-      setTimeout(function(){location.reload()}, 250);
     }
   </script>

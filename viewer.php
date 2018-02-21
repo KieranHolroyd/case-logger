@@ -23,6 +23,7 @@
   var list = "";
   var player_punished, player_banned, moreinfo, setMoreInfo, reporting_player;
   function getReports(){
+    if(offset === 0) {$('#reports').html("<img src='img/loadw.svg'>")}
     list="";
     $.post('api/getCases',{ 'offset':offset },function(data){
       cases=JSON.parse(data);
@@ -41,13 +42,14 @@
         if(cases.caseno[i].ba==1){player_banned="Yes"} else {player_banned="No"}
         list += '<div class="case" onclick="getMoreInfo('+cases.caseno[i].id+')"><span style="float: right;font-size: 12px;">Lead Staff Member: '+cases.caseno[i].lead_staff+'</span><span style="font-size: 25px;">'+cases.caseno[i].id+'-'+reporting_player_name+'<br><span style="font-size: 12px; padding: 0;">Punishment? '+player_punished+' | Banned? '+player_banned+' | Timestamp: '+cases.caseno[i].timestamp+' | Report Type: '+cases.caseno[i].typeofreport+'</span></span></div>';
       }
-      $('#reports').append(list);
+      if(offset === 0) {$('#reports').html(list);} else {$('#reports').append(list);}
+      
       offset = offset+100;
     });
   };
   let players_involved, playersArray, player_title;
   function getMoreInfo(id){
-    $('#case_info').html("<p>Loading...</p>");
+    $('#case_info').html("<p><img src='img/loadw.svg'></p>");
     players_involved="";
     playersArray="";
     player_title="";

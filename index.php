@@ -1,11 +1,11 @@
 <?php session_start(); include "head.php"; ?>
   <?php include "navbar.php"; ?>
-  <div class="grid" style="padding-left:15px;">
-    <div class="grid__col grid__col--1-of-6">
-      <div style="margin-left: 5px;position: relative;max-width: 100%;background-color: #222;height: calc(100vh - 44px);overflow: auto;box-shadow: 0 0 5px 0 rgba(0,0,0,0.2);">
+  <div class="grid" style="padding-left:15px;z-index: 25;">
+    <div class="grid__col grid__col--1-of-6" style="box-shadow: 0 0 5px 0 rgba(0,0,0,0.2);">
+      <div style="margin-left: 5px;max-width: 100%;background-color: #222;height: 100vh;overflow: auto;">
         <p class="label">Other Staff</p>
-        <button class="pickbtn" id="addOtherStaff" style="display: none;">Add Other Staff</button>
-        <button class="pickbtn" id="removeOtherStaff" style="display: none;">Remove Other Staff</button>
+        <button class="pickbtn" id="addOtherStaff" style="display: none;transition: background-color 200ms;">Add Other Staff</button>
+        <button class="pickbtn" id="removeOtherStaff" style="display: none;transition: background-color 200ms;">Remove Other Staff</button>
         <p class="label">Players</p>
         <button class="pickbtn" id="addPlayerReporter">Add Reporting Player</button>
         <button class="pickbtn" id="addPlayerReported">Add Reported Player</button>
@@ -32,11 +32,8 @@
         <button class="pickbtn" id="BanReportButton">Add Ban Report</button>
       </div>
     </div>
-    <div class="grid__col grid__col--5-of-6" style="height: calc(100vh - 44px) !important;overflow: auto;">
-      <div class="topBar">
-        <h2 style="text-align: center;">Submitting As <span style="font-weight: bold;color: #00c5ff;" id="sas">Human</span></h2>      	
-      </div>
-      <div style="height: 60px;background-color: #232323;"></div>
+    <div class="grid__col grid__col--5-of-6" style="height: 100vh !important;overflow: auto;z-index: 0;">
+      <h2 style="text-align: center;background-color: #222;">Submitting As <span style="font-weight: bold;color: #00c5ff;" id="sas">Human</span></h2>      	
       <div class="field">
       	<div class="fieldTitle">Description Of Events</div>
         <textarea class="fieldTextarea" id="doi" placeholder="Description Of The Events?*"></textarea>
@@ -69,9 +66,9 @@
 	</div>
 	<div class="modal" id="confirmCase">
     <button id="close">×</button>
-    <div class="content" style="max-width: 900px;padding:0;">
+    <div class="content" style="max-width: 900px;padding:0;min-height: 600px;transition: 300ms;">
       <div id="confirmBody" style='margin: 10px;padding-top: 10px;'></div>
-      <button style='width:100%;margin: 0;' onclick="submit()">Send</button>
+      <button style='width:100%;margin: 0;transition: 0;' id="submitRealButton" onclick="submit()">Send</button>
     </div>
   </div>
   <script>
@@ -113,6 +110,10 @@
       }
     });
     function confirmSubmit(){
+      $('#submitRealButton').fadeIn(200);
+      $('#confirmCase .content').css('max-width', '900px');
+      $('#confirmCase .content').css('min-height', '600px');
+      $('#confirmCase .content').css('border-radius', '');
       var gotPoints, gotBanned;
       if(punishmentReport==1){gotPoints="Yes"}else{gotPoints="No"}
       if(banReport==1){gotBanned="Yes"}else{gotBanned="No"}
@@ -126,9 +127,11 @@
     }
     let staffList="";
     function submit(){
-      $('#confirmBody').html("<center><h1>Sending Case...</h1></center>");
-      $('#submitReport').css('pointer-events', 'none');
-      $('#submitReport').text('Case Added Please Wait');
+      $('#confirmCase .content').css('max-width', '100px');
+      $('#confirmCase .content').css('min-height', '100px');
+      setTimeout(function(){$('#confirmCase .content').css('border-radius', '50%');}, 100);
+      $('#confirmBody').html("<center><h1><img src='img/loadw.svg'></h1></center>");
+      $('#submitRealButton').fadeOut(200);
       let type;
       otherStaffParsed="";
       for(let i = 1; i < otherStaff + 1; i++){
@@ -203,8 +206,6 @@
         playerArray.push({
           reporter:''
         });
-        setTimeout(function(){$('#submitReport').css('pointer-events', 'auto');$('#submitReport').text('Submit');},5000)
-        updateDailyCases();
         new Noty({
           type: 'success',
           layout: 'topRight',
@@ -212,7 +213,12 @@
           timeout: 3000,
           text: 'Case Logged Successfully!',
         }).show();
-        closeAllModal();
+        $('#confirmBody').fadeOut(200);
+        setTimeout(() => {
+          $('#confirmBody').html('<center><img src="img/success.svg"></center>');
+          $('#confirmBody').fadeIn(200);
+        }, 200);
+        setTimeout(() => {closeAllModal()}, 1000)
       });
     };
     var otherStaff = 0;
@@ -276,8 +282,10 @@
         for (let i = 1; i < Object.keys(staff).length + 1; i++) {
           staffList += "<option value='"+staff[i].name+"'>"+staff[i].name+"</option>";
         }
-        $('#removeOtherStaff').show();
-        $('#addOtherStaff').show();
+        $('#addOtherStaff').slideDown(200);
+        setTimeout(() => {
+          $('#removeOtherStaff').slideDown(200);
+        }, 250);
       });
     }
   </script>

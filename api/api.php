@@ -1,6 +1,6 @@
 <?php
 session_start();
-include "db.php";
+include "../db.php";
 $url = $_GET['url'];
 if ($_SERVER['REQUEST_METHOD']=='POST') {
     if ($url=="loginUser") {

@@ -2,7 +2,7 @@
 <div class="grid">
   <div class="grid__col grid__col--4-of-6" style="padding-left: 20px !important;">
     <h1 class="info-title" id="welcome"></h1>
-    <div id="reports" class="cscroll">
+    <div id="reports" class="cscroll" style="height: calc(100vh - 69px);">
 			
     </div>
   </div>
@@ -15,6 +15,7 @@
   var player_punished, player_banned, moreinfo, setMoreInfo;
   var players_involved, playersArray, player_title;
 	function getStaffActivity(){
+    $('#reports').html('<img src="img/loadw.svg">');
     var other_staff;
     var other_staff_text;
     $.post('api/getStaffActivity',{ 'id':userArray.info.username },function(data){
@@ -38,6 +39,7 @@
     });
   }
   function getCase(id){
+    $('#case_info').html("<img src='img/loadw.svg'>");
     players_involved = "";
     playersArray = "";
     player_title = "";
@@ -58,6 +60,7 @@
     });
   }
   function getMoreInfo(){
+    $('#case_info').html('<img src="img/loadw.svg">');
     actwarn_start = "";
     actwarn_end = "";
     $.post('api/getStaffMoreInfo',{ 'id':userArray.info.id },function(data){

@@ -3,7 +3,9 @@
 	pointer-events:auto;
 	margin: 0;
 	padding: 0;
-	outline: none;
+  outline: none;
+  box-sizing: border-box !important;
+  z-index: 0;
 }
 
 body{
@@ -11,7 +13,7 @@ body{
 }
 
 #nav{
-  	position: fixed;
+  	position: fixed !important;
     top: 25px;right: 50px;
   	width: 300px;
     border-radius: 25px;
@@ -23,18 +25,20 @@ body{
     cursor: pointer;
     transition: box-shadow,opacity 300ms;
     opacity: 0.2;
-    z-index: 10;
+    z-index: 1000;
   }
 	#nav:hover{
 		box-shadow: 0 0 10px 0 rgba(0,0,0,0.2);
-    opacity: 1;
-    z-index: 20;
+		opacity: 1;
+		z-index: 2000;
 	}
   #nav span {
   	color: #777;
   }
   #nav a {
-	  padding-top: 15px;
+    display: inline;
+    padding-top: 15px;
+    padding-left: 10px;
 	  color: #000;
 	  display: table-cell;
 	  vertical-align:middle;
@@ -47,9 +51,8 @@ body{
   	position: fixed;
     background-color: #ddd;
     border-radius: 10px;
-    padding: 10px;
     opacity: 0.2;
-    z-index: 15;
+    z-index: 1500;
     box-shadow: 0 0 10px 0 rgba(0,0,0,0.2);
     transition: opacity 200ms;
     width: 200px;
@@ -58,13 +61,29 @@ body{
   #moreMenu:hover{
   	opacity: 1;
   }
+  #moreMenu a:first-child{
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+  }
+  #moreMenu a{
+    color: #000;
+    display: block;
+    padding: 5px;
+    text-align: center;
+    cursor: pointer;
+    transition: 300ms;
+  }
+  #moreMenu a:hover{
+    background-color: #ccc;
+    transition: 0ms;
+  }
   #contextMenu {
   	display: none;
   	position: fixed;
     background-color: #ddd;
     border-radius: 10px;
     padding: 10px;
-    z-index: 999;
+    z-index: 999999;
     box-shadow: 0 0 10px 0 rgba(0,0,0,0.2);
     transition: opacity 200ms;
     width: 200px;

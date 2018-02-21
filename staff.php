@@ -23,6 +23,7 @@
   let staffbgc = "";
   let stafftextc = "";
   function getStaffTeam(){
+    $('#staff').html("<img src='img/loadw.svg'>");
     list="";
     $.get('api/getStaffTeam', function(data){
       staff=JSON.parse(data);
@@ -41,7 +42,7 @@
   let actwarn_start;
 	let actwarn_end;
   function getMoreInfo(id){
-    $('#staff_info').html("<p>Loading...</p>");
+    $('#staff_info').html("<p><img src='img/loadw.svg'></p>");
     actwarn_start = "";
     actwarn_end = "";
     $.post('api/getStaffMoreInfo',{ 'id':id },function(data){
@@ -99,11 +100,11 @@
     });
   }
   function getStaffActivity(name){
-    $('#staff_info').html("<p>Loading...</p>");
+    $('#staff_info').html("<img src='img/loadw.svg'>");
     var other_staff;
     var other_staff_text;
     $.post('api/getStaffActivity',{ 'id':name },function(data){
-      $('#staff_info').css('background', '#444');
+      $('#staff_info').css('background', '#3a3a3a');
       activity="";
       moreinfo=JSON.parse(data);
       for (let i = 1; i < Object.keys(moreinfo.log).length + 1; i++) {
@@ -124,12 +125,11 @@
     });
   }
   function getCase(id){
-    $('#staff_info').html("<p>Loading...</p>");
+    $('#staff_info').html("<img src='img/loadw.svg'>");
     players_involved = "";
     playersArray = "";
     player_title = "";
   	$.post('api/getMoreInfo',{ 'id':id },function(data){
-      $('#staff_info').css('background', '#444');
       moreinfo=JSON.parse(data);
       if(moreinfo.report.players!=="[]" && moreinfo.report.players!==""){
         playersArray=JSON.parse(moreinfo.report.players);

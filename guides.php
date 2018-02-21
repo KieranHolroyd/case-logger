@@ -43,7 +43,7 @@
     });
   };
   function getFullGuide(id){
-    $('#guide_info').html("<p>Loading...</p>");
+    $('#guide_info').html("<img src='img/loadw.svg'>");
     item = "";
     $.post('api/getFullGuide', { 'id':id }, function(data){
       guide = JSON.parse(data);

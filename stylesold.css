@@ -5,7 +5,6 @@
   margin: 0;
   font-family: 'Roboto', sans-serif;
   color: #fff;
-  box-sizing: border-box !important;
 }
 body{
   background: #555;
@@ -18,15 +17,6 @@ a{
 }
 a:hover{
 	color: #fff;
-}
-.topBar{
-  position: fixed;
-  top: 43px;
-  left: calc(16.66667% - 4px);
-  width: calc(83.44443% + 4px);
-  padding: 8px;
-  background-color: #212121;
-  box-shadow: 0 4px 4px 0 rgba(0,0,0,0.2);
 }
 .newsubmitBtn{
   margin: 0px;
@@ -277,7 +267,7 @@ button{
 	color: #fff;
 	background-color: #222;
 	border: 1px solid transparent;
-	transition: .3s;
+	transition: border 300ms;
 }
 button:hover{
 	border: 1px solid #fff;
@@ -381,7 +371,7 @@ button:hover{
 #staff_info{
 	box-shadow: 0 0 5px 0 rgba(0,0,0,0.2);
   background-color: #3a3a3a;
-  height: calc(100vh - 44px);
+  height: 100vh;
   overflow: auto;
   z-index: 1;
 }
@@ -391,14 +381,14 @@ button:hover{
 #case_info{
 	box-shadow: 0 0 5px 0 rgba(0,0,0,0.2);
   background-color: #3a3a3a;
-  height: calc(100vh - 44px);
+  height: 100vh;
   overflow: auto;
   z-index: 1;
 }
 #guide_info{
 	box-shadow: 0 0 5px 0 rgba(0,0,0,0.2);
   background-color: #3a3a3a;
-  height: calc(100vh - 44px);
+  height: 100vh;
   overflow: auto;
   z-index: 1;
 }
@@ -427,11 +417,11 @@ button:hover{
 	padding: 0px !important;
 }
 #reports{
-	height: calc(100vh - 114px);
+	height: calc(100vh - 10px);
   overflow-y: auto;
 }
 #staff{
-	height: calc(100vh - 114px);
+	height: calc(100vh - 70px);
   overflow-y: auto;
 }
 #loadMore{

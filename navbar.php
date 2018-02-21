@@ -1,7 +1,9 @@
 <div id="topLevel">
   <div id="nav">
     <a href="./">Home</a>
+    <a style="cursor:pointer;" id="openMore" opened="false">Navigation</a>
   </div>
+  <div id="moreMenu"></div>
 </div>
 <script>
   function currentTime(){
