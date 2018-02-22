@@ -130,18 +130,20 @@ if ($_SERVER['REQUEST_METHOD']=='POST') {
             echo "Insufficient Permissions";
         }
     } else if ($url=="addGuide") {
+    } else if ($url=="editGuide") {
         $logged_in=unserialize($_COOKIE['userArrayPHP']);
         if($logged_in['info']['slt']==1){
+            $id = $_POST['id'];
             $title = $_POST['title'];
             $body = $_POST['body'];
             $user = $logged_in['info']['firstname']." ".$logged_in['info']['lastname'];
-            $sql="INSERT INTO guides (`title`, `body`, `author`) VALUES ( :title , :body , :user)";
+            $sql="UPDATE guides SET title = :title, body = :body WHERE id=:id";
             $query = $pdo->prepare($sql);
             $query->bindValue(':title', $title, PDO::PARAM_STR);
             $query->bindValue(':body', $body, PDO::PARAM_STR);
-            $query->bindValue(':user', $user, PDO::PARAM_STR);
+            $query->bindValue(':id', $id, PDO::PARAM_STR);
             $query->execute();
-            echo "Guide Added Successfully.";
+            echo "Guide Edited Successfully.";
         } else {
             echo "Insufficient Permissions.";
         }

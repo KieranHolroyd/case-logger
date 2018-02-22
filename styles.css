@@ -15,7 +15,7 @@ body{
 #nav{
   position: fixed !important;
   top: 25px;right: 50px;
-  width: 300px;
+  width: 340px;
   border-radius: 25px;
   height: 50px;
   background-color: #ddd;
@@ -105,7 +105,7 @@ body{
 	float: left;
 	clear: none;
 	display: inline-block;
-	width: calc(25% - 20px);
+	width: calc(25% - 22px);
 	height: 250px;
 	overflow-y: auto;
 	background-color: #616161;
@@ -140,11 +140,16 @@ body{
 	background-color: #757575;
 	box-shadow: 0 0 10px 0 rgba(0,0,0,0.4);
 }
+.navCard-small .title{
+  font-weight: bold;
+  font-size: 25px;
+}
 .navCard-items{
 	margin: 20px;
 }
 .navCard .title{
-	font-weight: bold;
+  font-weight: bold;
+  font-size: 25px;
 }
 .navCard .shortcontent{
 	margin-top: 15px;
