@@ -6,7 +6,7 @@
   <a href="logger">
 		<div class="navCard-small">
 			<div class="navCard-items">
-				<p class="title">Log Case</p>
+				<p class="title"><i class="fas fa-clipboard" style="padding-right: 10px;"></i>Log Case</p>
 				<p class="shortcontent">Go here to log your cases.</p>
 			</div>
 		</div>  
@@ -14,16 +14,16 @@
   <a href="guides">
 	<div class="navCard-small">
 		<div class="navCard-items">
-			<p class="title">Guides</p>
+			<p class="title"><i class="fas fa-book" style="padding-right:10px;"></i>Guides</p>
 			<p class="shortcontent">Tutorials and Operating Procedures.</p>
 		</div>
 	</div>  
   </a>
-  <a href="logger.php">
+  <a href="me">
 	<div class="navCard-small">
 		<div class="navCard-items">
-			<p class="title">Test</p>
-			<p class="shortcontent">Go here to log your cases.</p>
+			<p class="title"><i class="fas fa-address-card" style="padding-right:10px;"></i>Profile</p>
+			<p class="shortcontent">View your User Profile</p>
 		</div>
 	</div>  
   </a>
