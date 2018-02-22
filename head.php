@@ -56,3 +56,4 @@
       userArray = {};
     }
   </script>
+  <?php if(!isset($nonav)) include "navbar.php"; ?>

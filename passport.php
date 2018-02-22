@@ -1,4 +1,4 @@
-<?php include "head.php"; ?>
+<?php $nonav=0;include "head.php"; ?>
 	<div class="card card-sm">
 		<div class="card-head">
 			<h2>Account</h2>

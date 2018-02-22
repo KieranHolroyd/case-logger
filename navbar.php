@@ -2,6 +2,7 @@
   <div id="nav">
     <a href="./">Home</a>
     <a style="cursor:pointer;" id="openMore" opened="false">Navigation</a>
+    <a id="time" style="color: #222;cursor:default;"></a>
   </div>
   <div id="moreMenu"></div>
 </div>

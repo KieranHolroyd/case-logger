@@ -1,5 +1,5 @@
 <?php 
-include "head.php";include "navbar.php";
+include "head.php";
 $searchType=$_GET['type'];
 $searchQuery=$_GET['query'];
 ?>

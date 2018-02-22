@@ -1,5 +1,4 @@
 <?php include "head.php"; ?>
-<?php include "navbar.php"; ?>
 <div class="cases-container">
   <div class="daily-cases"><b>Daily Cases</b></div><div class="weekly-cases"><b>Weekly Cases</b></div>
   <div class="topStaff"></div>

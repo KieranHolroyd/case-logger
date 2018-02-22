@@ -1,4 +1,4 @@
-<?php include "head.php";include "navbar.php"; ?>
+<?php include "head.php"; ?>
 <div class="grid">
   <div class="grid__col grid__col--4-of-6" style="padding-left: 20px !important;">
     <h1 class="info-title" id="welcome"></h1>

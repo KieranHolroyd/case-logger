@@ -1,5 +1,4 @@
 <?php session_start(); include "head.php"; ?>
-  <?php include "navbar.php"; ?>
   <div class="grid" style="padding-left:15px;z-index: 25;">
     <div class="grid__col grid__col--1-of-6" style="box-shadow: 0 0 5px 0 rgba(0,0,0,0.2);">
       <div style="margin-left: 5px;max-width: 100%;background-color: #222;height: 100vh;overflow: auto;">
@@ -35,8 +34,8 @@
     <div class="grid__col grid__col--5-of-6" style="height: 100vh !important;overflow: auto;z-index: 0;">
       <h2 style="text-align: center;background-color: #222;">Submitting As <span style="font-weight: bold;color: #00c5ff;" id="sas">Human</span></h2>      	
       <div class="field">
-      	<div class="fieldTitle">Description Of Events</div>
-        <textarea class="fieldTextarea" id="doi" placeholder="Description Of The Events?*"></textarea>
+      	<div class="fieldTitle" id="doeTitle">Description Of Events <span id="doeTitleWords" style="color: #555;">(0 Words)</span></div>
+        <textarea class="fieldTextarea" id="doi" placeholder="Description Of The Events?*" onkeyup="$('#doeTitleWords').text('('+ wordCount($(this).val()) +' Words)')"></textarea>
       </div>
         <input id="lsm" type="hidden">
       	<input id="typeOfReportField" type="hidden" value="Other">
@@ -276,6 +275,9 @@
       });
       gsl();
     });
+    function wordCount(str) { 
+      return str.split(" ").length;
+    }
     function gsl(){
       $.get('api/getStaffList', function(data){
         staff=JSON.parse(data);

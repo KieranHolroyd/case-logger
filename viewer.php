@@ -1,18 +1,17 @@
 <?php include "head.php"; ?>
-<?php include "navbar.php"; ?>
 <div class="searchBox-container">
   <a href="search?type=cases"><input type="text" class="searchBox" id="searchQuery" placeholder="Search All Cases"><button class="searchCases" id="searchCases">Search</button></a>
 </div>
 <div class="grid">
   <div class="grid__col grid__col--4-of-6" style="padding-left: 20px !important;">
     <h1 class="info-title">Case List</h1>
-    <div id="reports" style='height: calc(100vh - 164px) !important;' class="cscroll">
+    <div id="reports" style='height: calc(100vh - 118px) !important;' class="cscroll">
 
     </div>
     <button id="loadMore">Load More Cases</button>
   </div>
   <div class="grid__col grid__col--2-of-6">
-    <div id="case_info" style='height: calc(100vh - 94px);' class="cscroll">
+    <div id="case_info" style='height: calc(100vh - 49px);' class="cscroll">
       <h1>Select A Case To View Info.</h1>
     </div>
   </div>
