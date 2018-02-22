@@ -113,8 +113,8 @@
 		function setColor(val) {
 			switch (val) {
 				case 1:
-					$('#titleText h1').css('color', '#ddd');
-					$('#titleText p').css('color', '#ddd');
+					$('#titleText h1').css('color', '#fff');
+					$('#titleText p').css('color', '#fff');
 					break;
 				case 0:
 					$('#titleText h1').css('color', '#333');
