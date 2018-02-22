@@ -87,9 +87,9 @@
 	<div class="content" style="max-width: 900px;border-radius: 5px;">
 		<h2>Choose A Background Image</h2>
 		<p>Background 1 (Default) <span id="selectBG1" style="cursor:pointer;" onclick="selectBG(1, false)"><?php if($_COOKIE['bg']==="1"){ echo "[SELECTED]"; } else { echo "[SELECT]"; }?></span></p>
-		<img src="img/bg1.png" style="border-radius: 5px;box-shadow: 0 0 5px 0 rgba(0,0,0,0.3);margin:5px;width: calc(100% - 10px);" alt="Background 1 (Default)" title="Background 1 (Default)">
+		<img src="img/bg1.png" onclick="selectBG(1, false)" style="border-radius: 5px;box-shadow: 0 0 5px 0 rgba(0,0,0,0.3);margin:5px;width: calc(100% - 10px);" alt="Background 1 (Default)" title="Background 1 (Default)">
 		<p>Background 2 <span id="selectBG2" style="cursor:pointer;" onclick="selectBG(2, false)"><?php if($_COOKIE['bg']==="2"){ echo "[SELECTED]"; } else { echo "[SELECT]"; }?></span></p>
-		<img src="img/bg2.png" style="border-radius: 5px;box-shadow: 0 0 5px 0 rgba(0,0,0,0.3);margin:5px;width: calc(100% - 10px);" alt="Background 2" title="Background 2">
+		<img src="img/bg2.png" onclick="selectBG(2, false)" style="border-radius: 5px;box-shadow: 0 0 5px 0 rgba(0,0,0,0.3);margin:5px;width: calc(100% - 10px);" alt="Background 2" title="Background 2">
 	</div>
 </div>
 <!--Created By Kieran Holroyd-->
