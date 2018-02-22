@@ -56,7 +56,7 @@
         player_title = moreinfo.report.lead_staff;
       }
       setMoreInfo = '<h2><span>Case ID:</span> '+moreinfo.report.id+'-'+player_title+'</h2><p id="case"><span>Lead Staff:</span> '+moreinfo.report.lead_staff+'</p><p id="case"><span>Other Staff:</span> '+moreinfo.report.other_staff+'</p><p id="case"><span>Type Of Report:</span><br> '+moreinfo.report.typeofreport+'</p><p id="case" style="text-transform: capitalize;"><span>Players Involved:</span><br> '+players_involved+'</p><p id="case"><span>Description Of Events:</span><br> '+moreinfo.report.doe+'</p><p id="case"><span>Link To Player Report:</span><br> <a class="report_link" href="'+moreinfo.report.ltpr+'">'+moreinfo.report.ltpr+'</a></p><p id="case"><span>Points?:</span> '+moreinfo.report.points+'</p><p id="case"><span>Ammount Of Points:</span> '+moreinfo.report.aop+'</p><p id="case"><span>Offence Committed:</span><br> '+moreinfo.report.oc+'</p><p id="case"><span>Evidence Given:</span><br> '+moreinfo.report.evidence+'</p><p id="case"><span>Banned?:</span> '+moreinfo.report.banned+'</p><p id="case"><span>Ban Length:</span> '+moreinfo.report.ban_length+' Days</p><p id="case"><span>Ban Message:</span><br> '+moreinfo.report.bm+'</p><p id="case"><span>TS Ban:</span> '+moreinfo.report.ts+'</p><p id="case"><span>Ingame Ban:</span> '+moreinfo.report.ig+'</p><p id="case"><span>Website Ban:</span> '+moreinfo.report.wb+'</p><p id="case"><span>Permenant Ban:</span> '+moreinfo.report.perm+'</p><p id="case"><span>Timestamp:</span> '+moreinfo.report.timestamp+'</p>';
-      $('#case_info').html(setMoreInfo);
+      $('#case_info').html(linkify(setMoreInfo));
     });
   }
   function getMoreInfo(){

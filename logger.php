@@ -285,9 +285,7 @@
           staffList += "<option value='"+staff[i].name+"'>"+staff[i].name+"</option>";
         }
         $('#addOtherStaff').slideDown(200);
-        setTimeout(() => {
-          $('#removeOtherStaff').slideDown(200);
-        }, 250);
+        $('#removeOtherStaff').slideDown(200);
       });
     }
   </script>
