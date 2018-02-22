@@ -106,7 +106,7 @@
 		}
 		getImageBrightness(getBGImg(),function(brightness) {
 			console.warn(brightness);
-			if(brightness > 100){
+			if(brightness > 115){
 				setColor(0);
 			}
 		});
