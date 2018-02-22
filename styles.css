@@ -101,12 +101,11 @@ body{
   z-index: 0;
   background-color: transparent;
 }
-.navCard{
+.navCard-small{
 	float: left;
 	clear: none;
 	display: inline-block;
-	width: calc(25% - 22px);
-	height: 250px;
+	width: calc(25% - 20px);
 	overflow-y: auto;
 	background-color: #616161;
 	margin: 10px 10px;
@@ -116,12 +115,12 @@ body{
 	color: #fff;
 }
 
-.navCard-small{
+.navCard{
 	float: left;
 	clear: none;
 	display: inline-block;
-	width: calc(33% - 16px);
-	height: 90px;
+	width: calc(33% - 14px);
+	height: auto;
 	overflow-y: auto;
 	background-color: #616161;
 	margin: 10px 10px;
@@ -152,7 +151,7 @@ body{
   font-size: 25px;
 }
 .navCard .shortcontent{
-  font-size: 15px;
+  font-size: 12px;
 	margin-top: 15px;
 }
 
