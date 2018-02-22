@@ -98,12 +98,12 @@
     $('#BanReportButton').click(function(){
       if($('#BanReportButton').attr('open')){
         $('#banReport').slideUp();
-        $('#BanReportButton').text('Add Punishment Report');
+        $('#BanReportButton').text('Add Ban Report');
         $('#BanReportButton').removeAttr('open');
         banReport = 0;
       } else {
         $('#banReport').slideDown();
-        $('#BanReportButton').text('Remove Punishment Report');
+        $('#BanReportButton').text('Remove Ban Report');
         $('#BanReportButton').attr('open', true);
         banReport = 1;
       }
