@@ -6,24 +6,24 @@
   <a href="logger">
 		<div class="navCard">
 			<div class="navCard-items">
-				<p class="title"><i class="fas fa-clipboard" style="padding-right: 10px;"></i>Log Case</p>
-				<p class="shortcontent">Go here to log your cases.</p>
+				<p class="title" style="color:#1abc9c;"><i class="fas fa-clipboard" style="padding-right: 10px;color:#1abc9c;"></i>Log Case</p>
+				<!-- <p class="shortcontent" style="color:#16a085;">Go here to log your cases.</p> -->
 			</div>
 		</div>  
   </a>
   <a href="guides">
 		<div class="navCard">
 			<div class="navCard-items">
-				<p class="title"><i class="fas fa-book" style="padding-right:10px;"></i>Guides</p>
-				<p class="shortcontent">Tutorials and Operating Procedures.</p>
+				<p class="title" style="color:#e67e22;"><i class="fas fa-book" style="padding-right:10px;color:#e67e22;"></i>Guides</p>
+				<!--<p class="shortcontent" style="color:#d35400;">Tutorials and Operating Procedures.</p> -->
 			</div>
 		</div>  
   </a>
   <a href="me">
 		<div class="navCard">
 			<div class="navCard-items">
-				<p class="title"><i class="fas fa-address-card" style="padding-right:10px;"></i>Profile</p>
-				<p class="shortcontent">View your User Profile</p>
+				<p class="title" style="color:#2ecc71;"><i class="fas fa-address-card" style="padding-right:10px;color:#2ecc71;"></i>Profile</p>
+				<!-- <p class="shortcontent" style="color:#27ae60;">View your User Profile</p> -->
 			</div>
 		</div>  
   </a>
