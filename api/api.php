@@ -399,6 +399,22 @@ if ($_SERVER['REQUEST_METHOD']=='POST') {
         } else {
             echo "Insufficient Permissions";
         }
+    } else if ($url=="addMeeting") {
+      $logged_in=unserialize($_COOKIE['userArrayPHP']);
+        if($logged_in['info']['slt']==1){
+            $date = $_POST['date'];
+            $sltonly = ($_POST['slt']==1) ? true : false;
+            $points = "{}";
+            $sql="INSERT INTO meetings (`date`, `slt`, `points`) VALUES (:dte, :sltonly, :points)";
+            $query = $pdo->prepare($sql);
+            $query->bindValue(':dte', $date, PDO::PARAM_STR);
+            $query->bindValue(':sltonly', $sltonly, PDO::PARAM_STR);
+            $query->bindValue(':points', $points, PDO::PARAM_STR);
+            $query->execute();
+            echo "Meeting Added Successfully";
+        } else {
+            echo "Insufficient Permissions.";
+        }  
     }
 } else if ($_SERVER['REQUEST_METHOD']=='GET') {
     if ($url=="dailyCases") {
@@ -531,6 +547,28 @@ if ($_SERVER['REQUEST_METHOD']=='POST') {
                 $i++;
         }
         echo json_encode($arr); 
+    } else if ($url=="getMeetings") {
+        $arr = [];
+        $i = 1;
+        foreach ($pdo->query("SELECT * FROM meetings ORDER BY date DESC") as $meeting) {
+            $pointCount = count(json_decode($meeting->points));
+            $theDate = DateTime::createFromFormat('Y-m-d', $meeting->date);
+            if(!$meeting->slt){
+                $arr[$i]['date'] = $theDate->format('d/m/Y');
+                $arr[$i]['wrongDate'] = $theDate->format('m/d/Y');
+                $arr[$i]['points'] = $pointCount;
+                $i++;
+            } else {
+                if(unserialize($_COOKIE['userArrayPHP'])['info']['slt'] == 1){
+                    $arr[$i]['date'] = $theDate->format('d/m/Y');
+                    $arr[$i]['wrongDate'] = $theDate->format('m/d/Y');
+                    $arr[$i]['points'] = $pointCount;
+                    $arr[$i]['slt'] = true;
+                    $i++;
+                }
+            }
+        }
+        echo json_encode($arr);
     }
 } else {
     http_response_code(400);

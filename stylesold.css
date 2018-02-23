@@ -557,6 +557,7 @@ p.label{
 	border-radius: 25px;
 	cursor: pointer;
   padding: 0px;
+  transition: 100ms;
 }
 .modal #close:hover{
 	background-color: rgba(255,255,255,0.31);

@@ -1,6 +1,6 @@
 <?php $nonav=0; include "head.php"; ?>
 <?php if(!isset($_COOKIE['bg'])){ ?>
-	<body style="background: no-repeat center center fixed;background-size: cover;background-image: url(img/bg2.png);">
+	<body style="background: no-repeat center center fixed;background-size: cover;background-image: url(img/bg1.png);">
 <?php } elseif(isset($_COOKIE['cbg'])) { ?>
 <?php } else { ?>	
 	<body style="background: no-repeat center center fixed;background-size: cover;background-image: url(img/bg<?php echo $_COOKIE['bg']; ?>.png);">
@@ -12,7 +12,7 @@
 		<a href="logger">
 			<div class="navCard">
 				<div class="navCard-items">
-					<p class="title" style="color:#1abc9c;"><i class="fas fa-clipboard" style="padding-right: 10px;color:#1abc9c;"></i>Log Case</p>
+					<p class="title" style="color:#1abc9c;"><i class="fas fa-clipboard" style="padding-right: 10px;color:#1abc9c;"></i> Log Case</p>
 					<!-- <p class="shortcontent" style="color:#16a085;">Go here to log your cases.</p> -->
 				</div>
 			</div>  
@@ -20,7 +20,7 @@
 		<a href="guides">
 			<div class="navCard">
 				<div class="navCard-items">
-					<p class="title" style="color:#e67e22;"><i class="fas fa-book" style="padding-right:10px;color:#e67e22;"></i>Guides</p>
+					<p class="title" style="color:#e67e22;"><i class="fas fa-book" style="padding-right:10px;color:#e67e22;"></i> Guides</p>
 					<!-- <p class="shortcontent" style="color:#d35400;">Tutorials and Operating Procedures.</p> -->
 				</div>
 			</div>  
@@ -28,16 +28,16 @@
 		<a href="me">
 			<div class="navCard">
 				<div class="navCard-items">
-					<p class="title" style="color:#2ecc71;"><i class="fas fa-address-card" style="padding-right:10px;color:#2ecc71;"></i>Profile</p>
+					<p class="title" style="color:#2ecc71;"><i class="fas fa-address-card" style="padding-right:10px;color:#2ecc71;"></i> Profile</p>
 					<!-- <p class="shortcontent" style="color:#27ae60;">View your User Profile</p> -->
 				</div>
 			</div>  
 		</a>
-		<a href="logger.php">
+		<a href="meetings">
 				<div class="navCard-small">
 					<div class="navCard-items">
-						<p class="title">Test</p>
-						<p class="shortcontent">Go here to log your cases.</p>
+						<p class="title"><i class="far fa-calendar-alt"></i> Meetings</p>
+						<p class="shortcontent">Go here to view previous meetings and input on upcoming ones.</p>
 					</div>
 				</div>  
 		</a>

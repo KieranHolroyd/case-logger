@@ -44,7 +44,7 @@
         $('#lsm').val(userArray.info.username);
         $('#sas').html(userArray.info.username);
         $('#moreMenu').append("<a href='staffStatistics'>Staff Statistics</a><a onclick='logout();'>Logout</a>");
-        $('#moreMenu').delay(150).prepend("<a href='./'>Dashboard</a><a href='logger'>Case Logger</a><a href='suggestions'>Suggestion Box</a><a href='me'>My Stats</a><a href='guides'>Guides</a>");
+        $('#moreMenu').delay(150).prepend("<a href='./'>Dashboard</a><a href='logger'>Case Logger</a><a href='suggestions'>Suggestion Box</a><a href='me'>My Stats</a><a href='guides'>Guides</a><a href='meetings'>Meetings</a>");
         $('#usernameNav').text(" | "+userArray.info.firstname+" "+userArray.info.lastname);
         userArrayLoaded();
     	});
