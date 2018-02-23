@@ -36,12 +36,12 @@
 		<a href="meetings">
 				<div class="navCard-small">
 					<div class="navCard-items">
-						<p class="title"><i class="far fa-calendar-alt"></i> Meetings</p>
-						<p class="shortcontent">Go here to view previous meetings and input on upcoming ones.</p>
+						<p class="title"><i class="far fa-calendar-alt" style="padding-right: 10px;"></i> Meetings</p>
+						<!--<p class="shortcontent">Go here to view previous meetings and input on upcoming ones.</p> -->
 					</div>
 				</div>  
 		</a>
-		<a href="logger.php">
+ 		<!--<a href="logger.php">
 				<div class="navCard-small">
 					<div class="navCard-items">
 						<p class="title">Test</p>
@@ -56,12 +56,12 @@
 						<p class="shortcontent">Go here to log your cases.</p>
 					</div>
 				</div>  
-		</a>
+		</a>-->
 		<a id="modalLaunch" launch="selectBG" style="cursor: pointer;">
 			<div class="navCard-small">
 				<div class="navCard-items">
-					<p class="title">Change Background Image</p>
-					<p class="shortcontent">Change the background image of this page.</p>
+					<p class="title"><i class="fas fa-cog" style="padding-right: 10px;"></i>Change Background</p>
+					<!--<p class="shortcontent">Change the background image of this page.</p>-->
 				</div>
 			</div>  
 		</a>

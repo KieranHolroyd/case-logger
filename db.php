@@ -1,6 +1,6 @@
 <?php 
 	$host = 'localhost';
-	$user = '';
+	$user = 'root';
 	$password = '';
 	$dbname = 'psisyn_caselogger';
 	$dsn = 'mysql:host='.$host.';dbname='.$dbname;
