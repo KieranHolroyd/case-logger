@@ -41,11 +41,11 @@
 					</div>
 				</div>  
 		</a>
-		<a href="logger.php">
+		<a href="logs">
 				<div class="navCard-small">
 					<div class="navCard-items">
-						<p class="title">Test</p>
-						<p class="shortcontent">Go here to log your cases.</p>
+						<p class="title"><i class="fas fa-book"></i> Server Logs</p>
+						<p class="shortcontent">Go here to view live logs from the Takistan server.</p>
 					</div>
 				</div>  
 		</a>

@@ -569,6 +569,12 @@ if ($_SERVER['REQUEST_METHOD']=='POST') {
             }
         }
         echo json_encode($arr);
+    } else if ($url=="getFiles") {
+        $jsonReturn = file_get_contents("https://eelis.me/a3_ah/api/files/list?apikey=dsjf83ufjosdjfkljsklfs");
+        echo $jsonReturn;
+    } else if ($url=="getLogs") {
+        $jsonReturn = file_get_contents("https://eelis.me/a3_ah/api/logs/list?apikey=dsjf83ufjosdjfkljsklfs&file=".$_GET['name']);
+        echo $jsonReturn;
     }
 } else {
     http_response_code(400);
