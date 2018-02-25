@@ -32,7 +32,7 @@
         	reporting_player_name="undefined";
         }
         if(moreinfo.log[i].other_staff==true){other_staff="other_staff";other_staff_text=" (Support)";}
-      	activity += '<div class="staffActivityCard '+escapeHtml(other_staff)+'" onclick="getCase('+escapeHtml(moreinfo.log[i].id)+')">'+escapeHtml(moreinfo.log[i].id)+" - "+escapeHtml(reporting_player_name+other_staff_text)+'<br>'+escapeHtml(moreinfo.log[i].doe)+'</div>'
+      	activity += '<div class="staffActivityCard '+other_staff+'" onclick="getCase('+moreinfo.log[i].id+')">'+moreinfo.log[i].id+" - "+reporting_player_name+other_staff_text+'<br>'+moreinfo.log[i].doe+'</div>'
       }
       setMoreInfo="<h1>"+name+"</h1><div>"+activity+"</div>";
       $('#reports').html(setMoreInfo);
@@ -67,7 +67,7 @@
       moreinfo=JSON.parse(data);
       if(moreinfo.activity_warning==true){actwarn_start="<span style='color: orange;' title='Activity Warning'>";actwarn_end="</span>";}
       setMoreInfo="<h1>Information About "+moreinfo.name+"</h1><p>Your Rank: "+moreinfo.rank+"</p><p>Your Total All Time Cases: "+moreinfo.casecount+"</p> <p>"+actwarn_start+moreinfo.casecount_week+" Of Those Were Logged This week"+actwarn_end+"</p>";
-      $('#case_info').html(escapeHtml(setMoreInfo));
+      $('#case_info').html(setMoreInfo);
     });
   }
   function userArrayLoaded(){

@@ -200,7 +200,7 @@ if ($_SERVER['REQUEST_METHOD']=='POST') {
         $report['report']['lead_staff'] .= htmlspecialchars($r->lead_staff);
         $report['report']['other_staff'] .= htmlspecialchars($r->other_staff);
         $report['report']['typeofreport'] .= htmlspecialchars($r->type_of_report);
-        $report['report']['players'] .= htmlspecialchars($r->players);
+        $report['report']['players'] .= $r->players;
         $report['report']['player_guid'] .= htmlspecialchars($r->player_guid);
         $report['report']['ltpr'] .= htmlspecialchars($r->link_to_player_report);
         $report['report']['doe'] .= htmlspecialchars($r->description_of_events);
@@ -230,7 +230,7 @@ if ($_SERVER['REQUEST_METHOD']=='POST') {
         $reporting_player=$r->players;
         $staffinfo['log'][$i]['id'] .= $r->id;
         $staffinfo['log'][$i]['doe'] .= htmlspecialchars($r->description_of_events);
-        $staffinfo['log'][$i]['reporting_player']=htmlspecialchars($reporting_player);
+        $staffinfo['log'][$i]['reporting_player']=$reporting_player;
         $i+=1;
         }
         echo json_encode($staffinfo);
@@ -249,7 +249,7 @@ if ($_SERVER['REQUEST_METHOD']=='POST') {
         $reporting_player=$r->players;
         $staffinfo['log'][$i]['id'] .= $r->id;
         $staffinfo['log'][$i]['doe'] .= htmlspecialchars($r->description_of_events);
-        $staffinfo['log'][$i]['reporting_player']=htmlspecialchars($reporting_player);
+        $staffinfo['log'][$i]['reporting_player']=$reporting_player;
         $i+=1;
         }
         echo json_encode($staffinfo);       
@@ -311,7 +311,7 @@ if ($_SERVER['REQUEST_METHOD']=='POST') {
             $reports['caseno'][$i]['pa'] .= $row->points_awarded;
             $reports['caseno'][$i]['ba'] .= $row->ban_awarded;
             $reports['caseno'][$i]['timestamp'] .= $row->timestamp;
-            $reports['caseno'][$i]['reporting_player']=htmlspecialchars($reporting_player);
+            $reports['caseno'][$i]['reporting_player']=$reporting_player;
             $i+=1;
         }
         echo json_encode($reports);   
