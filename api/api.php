@@ -197,25 +197,25 @@ if ($_SERVER['REQUEST_METHOD']=='POST') {
         if($r->website_ban==2){$wb="Yes";} else {$wb="No";}
         if($r->ban_perm==2){$perm="Yes";} else {$perm="No";}
         $report['report']['id'] .= $r->id;
-        $report['report']['lead_staff'] .= $r->lead_staff;
-        $report['report']['other_staff'] .= $r->other_staff;
-        $report['report']['typeofreport'] .= $r->type_of_report;
-        $report['report']['players'] .= $r->players;
-        $report['report']['player_guid'] .= $r->player_guid;
-        $report['report']['ltpr'] .= $r->link_to_player_report;
-        $report['report']['doe'] .= $r->description_of_events;
-        $report['report']['aop'] .= $r->amount_of_points;
-        $report['report']['evidence'] .= $r->evidence_supplied;
-        $report['report']['oc'] .= $r->offence_committed;
-        $report['report']['bm'] .= $r->ban_message;
-        $report['report']['points'] .= $points;
-        $report['report']['banned'] .= $ban;
-        $report['report']['ban_length'] .= $r->ban_length;
-        $report['report']['ts'] .= $ts;
-        $report['report']['ig'] .= $ig;
-        $report['report']['wb'] .= $wb;
-        $report['report']['perm'] .= $perm;
-        $report['report']['timestamp'] .= $r->timestamp;
+        $report['report']['lead_staff'] .= htmlspecialchars($r->lead_staff);
+        $report['report']['other_staff'] .= htmlspecialchars($r->other_staff);
+        $report['report']['typeofreport'] .= htmlspecialchars($r->type_of_report);
+        $report['report']['players'] .= htmlspecialchars($r->players);
+        $report['report']['player_guid'] .= htmlspecialchars($r->player_guid);
+        $report['report']['ltpr'] .= htmlspecialchars($r->link_to_player_report);
+        $report['report']['doe'] .= htmlspecialchars($r->description_of_events);
+        $report['report']['aop'] .= htmlspecialchars($r->amount_of_points);
+        $report['report']['evidence'] .= htmlspecialchars($r->evidence_supplied);
+        $report['report']['oc'] .= htmlspecialchars($r->offence_committed);
+        $report['report']['bm'] .= htmlspecialchars($r->ban_message);
+        $report['report']['points'] .= htmlspecialchars($points);
+        $report['report']['banned'] .= htmlspecialchars($ban);
+        $report['report']['ban_length'] .= htmlspecialchars($r->ban_length);
+        $report['report']['ts'] .= htmlspecialchars($ts);
+        $report['report']['ig'] .= htmlspecialchars($ig);
+        $report['report']['wb'] .= htmlspecialchars($wb);
+        $report['report']['perm'] .= htmlspecialchars($perm);
+        $report['report']['timestamp'] .= htmlspecialchars($r->timestamp);
         echo json_encode($report);   
     } else if ($url=="getSearchResults") {
         $searchquery=$_POST['query'];
@@ -229,8 +229,8 @@ if ($_SERVER['REQUEST_METHOD']=='POST') {
         foreach($rf as $r){
         $reporting_player=$r->players;
         $staffinfo['log'][$i]['id'] .= $r->id;
-        $staffinfo['log'][$i]['doe'] .= $r->description_of_events;
-        $staffinfo['log'][$i]['reporting_player']=$reporting_player;
+        $staffinfo['log'][$i]['doe'] .= htmlspecialchars($r->description_of_events);
+        $staffinfo['log'][$i]['reporting_player']=htmlspecialchars($reporting_player);
         $i+=1;
         }
         echo json_encode($staffinfo);
@@ -248,8 +248,8 @@ if ($_SERVER['REQUEST_METHOD']=='POST') {
         }
         $reporting_player=$r->players;
         $staffinfo['log'][$i]['id'] .= $r->id;
-        $staffinfo['log'][$i]['doe'] .= $r->description_of_events;
-        $staffinfo['log'][$i]['reporting_player']=$reporting_player;
+        $staffinfo['log'][$i]['doe'] .= htmlspecialchars($r->description_of_events);
+        $staffinfo['log'][$i]['reporting_player']=htmlspecialchars($reporting_player);
         $i+=1;
         }
         echo json_encode($staffinfo);       
@@ -311,7 +311,7 @@ if ($_SERVER['REQUEST_METHOD']=='POST') {
             $reports['caseno'][$i]['pa'] .= $row->points_awarded;
             $reports['caseno'][$i]['ba'] .= $row->ban_awarded;
             $reports['caseno'][$i]['timestamp'] .= $row->timestamp;
-            $reports['caseno'][$i]['reporting_player']=$reporting_player;
+            $reports['caseno'][$i]['reporting_player']=htmlspecialchars($reporting_player);
             $i+=1;
         }
         echo json_encode($reports);   
@@ -543,7 +543,7 @@ if ($_SERVER['REQUEST_METHOD']=='POST') {
         foreach($pdo->query('SELECT * FROM suggestions ORDER BY id DESC') as $r){
             $arr[$i]['id'] .= $r->id;
             $arr[$i]['name'] .= $r->name;
-            $arr[$i]['suggestion'] .= $r->suggestion;
+            $arr[$i]['suggestion'] .= htmlspecialchars($r->suggestion);
                 $i++;
         }
         echo json_encode($arr); 

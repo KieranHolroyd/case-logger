@@ -25,3 +25,13 @@ $('a[href*="#"]').not('[href="#"]').not('[href="#0"]').click(function (event) {
         }
     }
 });
+function escapeHtml(unsafe) {
+    return unsafe
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;")
+        .replace(/\(/g, "&#040;")
+        .replace(/\)/g, "&#041;");
+}

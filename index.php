@@ -1,10 +1,11 @@
 <?php $nonav=0; include "head.php"; ?>
-<?php if(!isset($_COOKIE['bg'])){ ?>
+<?php if(isset($_COOKIE['cbg'])) { ?>
+	<body style="background: no-repeat center center fixed;background-size: cover;background-image: url('<?php echo htmlspecialchars(strip_tags($_COOKIE['cbg'])); ?>');">
+<?php } else if(!isset($_COOKIE['bg'])){ ?>
 	<body style="background: no-repeat center center fixed;background-size: cover;background-image: url(img/bg1.png);">
-<?php } elseif(isset($_COOKIE['cbg'])) { ?>
 <?php } else { ?>	
-	<body style="background: no-repeat center center fixed;background-size: cover;background-image: url(img/bg<?php echo $_COOKIE['bg']; ?>.png);">
-<?php }?>
+	<body style="background: no-repeat center center fixed;background-size: cover;background-image: url(img/bg<?php echo htmlspecialchars(strip_tags($_COOKIE['bg'])); ?>.png);">
+<?php } ?>
 <div class="dashboardOverlay">
 	<div id="titleText" style="z-index:2;">
 		<h1 id="welcome" style="padding: 10px;display:inline-block;">Hello, Human</h1><h1 style="padding: 10px;float:right;display:inline-block;" id="dtime"></h1>
@@ -34,38 +35,34 @@
 			</div>  
 		</a>
 		<a href="meetings">
-				<div class="navCard-small">
-					<div class="navCard-items">
-						<p class="title"><i class="far fa-calendar-alt" style="padding-right: 10px;"></i> Meetings</p>
-						<!--<p class="shortcontent">Go here to view previous meetings and input on upcoming ones.</p> -->
-					</div>
-				</div>  
+			<div class="navCard-small">
+				<div class="navCard-items">
+					<p class="title"><i class="far fa-calendar-alt" style="padding-right: 10px;"></i> Meetings</p>
+					<p class="shortcontent">Go here to view previous meetings and input on upcoming ones.</p>
+				</div>
+			</div>  
 		</a>
-<<<<<<< HEAD
 		<a href="logs">
-=======
- 		<!--<a href="logger.php">
->>>>>>> master
-				<div class="navCard-small">
-					<div class="navCard-items">
-						<p class="title"><i class="fas fa-book"></i> Server Logs</p>
-						<p class="shortcontent">Go here to view live logs from the Takistan server.</p>
-					</div>
-				</div>  
+			<div class="navCard-small">
+				<div class="navCard-items">
+					<p class="title"><i class="fas fa-book"></i> Server Logs</p>
+					<p class="shortcontent">Go here to view live logs from the Takistan server.</p>
+				</div>
+			</div>  
 		</a>
 		<a href="logger.php">
-				<div class="navCard-small">
-					<div class="navCard-items">
-						<p class="title">Test</p>
-						<p class="shortcontent">Go here to log your cases.</p>
-					</div>
-				</div>  
-		</a>-->
+			<div class="navCard-small">
+				<div class="navCard-items">
+					<p class="title">Test</p>
+					<p class="shortcontent">Go here to log your cases.</p>
+				</div>
+			</div>  
+		</a>
 		<a id="modalLaunch" launch="selectBG" style="cursor: pointer;">
 			<div class="navCard-small">
 				<div class="navCard-items">
 					<p class="title"><i class="fas fa-cog" style="padding-right: 10px;"></i>Change Background</p>
-					<!--<p class="shortcontent">Change the background image of this page.</p>-->
+					<p class="shortcontent">Change the background image of this page.</p>
 				</div>
 			</div>  
 		</a>
@@ -78,11 +75,18 @@
 		function selectBG(bg, custom) {
 			var currentBG = Cookies.get('bg');
 			if(!custom){
+				Cookies.set('cbg', cimg, { expires: 0 });
 				Cookies.set('bg', bg, { expires: 720 });
 				if(currentBG !== undefined) {$('#selectBG'+currentBG).text('[SELECT]');}
 				$('#selectBG'+bg).text('[SELECTED]');
 				$('body').css('background-image', 'url("img/bg'+bg+'.png")');
 			}
+		}
+		function setCustomBackground() {
+			var cimg = $('#cimg').val();
+			Cookies.set('bg', 0, { expires: 0 });
+			Cookies.set('cbg', cimg, { expires: 720 });
+			$('body').css('background-image', 'url("'+cimg+'")');
 		}
 	</script>
 </body>
@@ -94,6 +98,9 @@
 		<img src="img/bg1.png" onclick="selectBG(1, false)" style="border-radius: 5px;box-shadow: 0 0 5px 0 rgba(0,0,0,0.3);margin:5px;width: calc(100% - 10px);" alt="Background 1 (Default)" title="Background 1 (Default)">
 		<p>Background 2 <span id="selectBG2" style="cursor:pointer;" onclick="selectBG(2, false)"><?php if($_COOKIE['bg']==="2"){ echo "[SELECTED]"; } else { echo "[SELECT]"; }?></span></p>
 		<img src="img/bg2.png" onclick="selectBG(2, false)" style="border-radius: 5px;box-shadow: 0 0 5px 0 rgba(0,0,0,0.3);margin:5px;width: calc(100% - 10px);" alt="Background 2" title="Background 2">
+		<p>Have Your Own Background? [E.G. Imgur/gyazo links] <?php if(isset($_COOKIE['cbg'])){ echo "[SELECTED]"; } ?></p>
+		<div class="field"><input class="fieldInput" style="background-color: #222;margin-top: 10px;" id="cimg" type="text" onkeyup="setCustomBackground();" placeholder="Your Link..." <?php if(isset($_COOKIE['cbg'])){ echo "value='".htmlspecialchars(strip_tags($_COOKIE['cbg']))."'"; } ?>></div>
+		<button type="button" style="margin-top: 10px;" class="newsubmitBtn" onclick="setCustomBackground();">Set Custom Image</button>
 	</div>
 </div>
 <!--Created By Kieran Holroyd-->
