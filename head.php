@@ -32,6 +32,9 @@
         if(userArray.info.id===""){
           if(window.location.pathname!=="/Purple-Iron-Bulldog/holdingpage" && window.location.pathname!=="/Purple-Iron-Bulldog/passport"){
             location.replace('holdingpage');
+            if (!isStaff()) {
+              window.location.replace("holdingpage");
+            }
           }
         }
         if(userArray.info.slt==="1" || userArray.info.dev=="1"){
@@ -48,6 +51,13 @@
         $('#usernameNav').text(" | "+userArray.info.firstname+" "+userArray.info.lastname);
         userArrayLoaded();
     	});
+    }
+    function isStaff() {
+      if (userArray.permissions.submitReport==1) {
+        return true;
+      } else {
+        return false;
+      }
     }
     $(window).on('load', userArraySet());
     function logout(){

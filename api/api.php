@@ -177,7 +177,7 @@ if ($_SERVER['REQUEST_METHOD']=='POST') {
         $query->execute();
         $r = $query->fetch();
         $arr=array();
-        $arr['title'] = $r->title;
+        $arr['title'] = htmlspecialchars($r->title);
         $arr['body'] = $r->body;
         $arr['author'] = $r->author;
         $arr['time'] = $r->timestamp;
@@ -509,7 +509,7 @@ if ($_SERVER['REQUEST_METHOD']=='POST') {
             $author=$r->author;
             $body=$r->body;
                 $guides[$i]['id'] .= $r->id;
-            $guides[$i]['title'] .= $title;
+            $guides[$i]['title'] .= htmlspecialchars($title);
             $guides[$i]['author'] .= $author;
             $guides[$i]['body'] .= $body;
             $guides[$i]['time'] .= $r->timestamp;

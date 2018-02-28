@@ -13,34 +13,38 @@
   </div>
 </div>
 <script>
-  function getFiles() {
-    $('#reports').html('<img src="img/loadw.svg">');
-    $.get('api/getFiles', function (data) {
-      var parsed = JSON.parse(data);
-      var list = "";
-      if (parsed.success==1){
-        var files = JSON.parse(parsed.files);
-        for(var i=0;i<Object.keys(files).length;i++){
-          list += '<div class="case" onclick="getLogs(\''+escapeHtml(files[i].name)+'\')"><span style="font-size: 25px;text-transform:capitalize;">'+escapeHtml(files[i].name)+'</span></div>';
+  function userArrayLoaded() {
+    if (isStaff()) {
+      $('#reports').html('<img src="img/loadw.svg">');
+      $.get('api/getFiles', function (data) {
+        var parsed = JSON.parse(data);
+        var list = "";
+        if (parsed.success==1){
+          var files = JSON.parse(parsed.files);
+          for(var i=0;i<Object.keys(files).length;i++){
+            list += '<div class="case" onclick="getLogs(\''+escapeHtml(files[i].name)+'\')"><span style="font-size: 25px;text-transform:capitalize;">'+escapeHtml(files[i].name)+'</span></div>';
+          }
+          $('#reports').html(list);
         }
-        $('#reports').html(list);
-      }
-    });
+      });
+    }
   }
   function getLogs(name) {
-    $('#case_info').html('<img src="img/loadw.svg">');
-    $.get('api/getLogs', { "name":name } , function (data) {
-      var parsed = JSON.parse(data);
-      var list = "";
-      if (parsed.success==1){
-        list += "<h2>Viewing "+name+" Logs</h2>";
-        var logs = JSON.parse(parsed.logs);
-        for(var i=0;i<Object.keys(logs).length;i++){
-          list += '<div style="padding:10px;border-bottom: 1px solid #222;"><span style="font-size: 15px;">'+escapeHtml(logs[i].text)+'</span><br><span style="font-size:12px;">'+escapeHtml(convertTimestamp(logs[i].time))+'</span></div>';
+    if (isStaff()) {
+      $('#case_info').html('<img src="img/loadw.svg">');
+      $.get('api/getLogs', { "name":name } , function (data) {
+        var parsed = JSON.parse(data);
+        var list = "";
+        if (parsed.success==1){
+          list += "<h2>Viewing "+name+" Logs</h2>";
+          var logs = JSON.parse(parsed.logs);
+          for(var i=0;i<Object.keys(logs).length;i++){
+            list += '<div style="padding:10px;border-bottom: 1px solid #222;"><span style="font-size: 15px;">'+escapeHtml(logs[i].text)+'</span><br><span style="font-size:12px;">'+escapeHtml(convertTimestamp(logs[i].time))+'</span></div>';
+          }
+          $('#case_info').html(list);
         }
-        $('#case_info').html(list);
-      }
-    });
+      });
+    }
   }
   function convertTimestamp(timestamp) {
       var d = new Date(0);
@@ -62,6 +66,5 @@
           .replace(/\(/g, "&#040;")
           .replace(/\)/g, "&#041;");
   }
-  getFiles();
 </script>
 <?php include "footer.php"; ?>

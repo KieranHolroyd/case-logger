@@ -108,7 +108,39 @@
         banReport = 1;
       }
     });
+    function checks(get) {
+      var rList = [];
+      var error = false;
+      if(wordCount($('#doi').val()) < 5){
+        error = true;
+        rList.push(" Word Count Must Be Greater Than 5");
+      }
+      for(let i = 1; i < otherStaff + 1; i++){
+      	if($('#os'+i).val() == 0){
+          error = true;
+          rList.push(" All Other Staff Must Be Selected");
+        }
+      }
+      playerArray.forEach(function(value, index){
+        if ($('#player'+index).val() == "" || $('#playerGUID'+index).val() == "") {
+          error = true;
+          rList.push(" All Players Must Be Filled In");
+        }
+      });
+      if (!error) {
+        rList.push(" None");
+      }
+      if(get == "error") {
+        return error;
+      } else if (get == "rList") {
+        return rList;
+      }
+    }
     function confirmSubmit(){
+      $('#submitRealButton').removeAttr('disabled');
+      $('#submitRealButton').css('background-color', '#222');
+      $('#submitRealButton').css('border', '');
+      $('#submitRealButton').css('color', '#fff');
       $('#submitRealButton').fadeIn(200);
       $('#confirmCase .content').css('max-width', '900px');
       $('#confirmCase .content').css('min-height', '600px');
@@ -121,7 +153,13 @@
       	otherStaffParsed += $('#os'+i).val()+" ";
         console.log(otherStaffParsed);
       }
-    	let list = '<div style="height: 100%;" id="case_info"><p id="case"><span>Case Title: '+$('#player1').val()+'</span></p><p id="case"><span>Lead Staff:</span> '+$('#lsm').val()+'</p><p id="case"><span>Other Staff:</span> '+otherStaffParsed+'</p><p id="case"><span>Type Of Report:</span> '+$('#typeOfReportField').val()+'</p><p id="case"><span>Description Of Events:</span> '+$('#doi').val()+'</p><p id="case"><span>Link To Player Report:</span>'+$('#ltpr').val()+'</p><p id="case"><span>Points?:</span> '+gotPoints+'</p><p id="case"><span>Ammount Of Points:</span> '+$('#aop').val()+'</p><p id="case"><span>Offence Committed:</span><br> '+$('#oc').val()+'</p><p id="case"><span>Evidence Given:</span><br> '+$('#es').val()+'</p><p id="case"><span>Banned?:</span> '+gotBanned+'</p><p id="case"><span>Ban Length:</span> '+$('#bl').val()+' Days</p><p id="case"><span>Ban Message:</span><br> '+$('#bm').val()+'</p><p id="case">(1=No, 2=Yes)</p><p id="case"><span>TS Ban:</span> '+$('#ts').val()+'</p><p id="case"><span>Ingame Ban:</span> '+$('#ig').val()+'</p><p id="case"><span>Website Ban:</span> '+$('#wb').val()+'</p><p id="case"><span>Permenant Ban:</span> '+$('#pb').val()+'</p><p id="case"><span>Timestamp:</span> '+currentTime()+'</p></div>';
+    	let list = '<div style="height: 100%;" id="case_info"><p id="case"><span>Case Title: '+$('#player1').val()+'</span></p><p id="case"><span>Lead Staff:</span> '+$('#lsm').val()+'</p><p id="case"><span>Other Staff:</span> '+otherStaffParsed+'</p><p id="case"><span>Type Of Report:</span> '+$('#typeOfReportField').val()+'</p><p id="case"><span>Description Of Events:</span> '+$('#doi').val()+'</p><p id="case"><span>Link To Player Report:</span>'+$('#ltpr').val()+'</p><p id="case"><span>Points?:</span> '+gotPoints+'</p><p id="case"><span>Ammount Of Points:</span> '+$('#aop').val()+'</p><p id="case"><span>Offence Committed:</span><br> '+$('#oc').val()+'</p><p id="case"><span>Evidence Given:</span><br> '+$('#es').val()+'</p><p id="case"><span>Banned?:</span> '+gotBanned+'</p><p id="case"><span>Ban Length:</span> '+$('#bl').val()+' Days</p><p id="case"><span>Ban Message:</span><br> '+$('#bm').val()+'</p><p id="case">(1=No, 2=Yes)</p><p id="case"><span>TS Ban:</span> '+$('#ts').val()+'</p><p id="case"><span>Ingame Ban:</span> '+$('#ig').val()+'</p><p id="case"><span>Website Ban:</span> '+$('#wb').val()+'</p><p id="case"><span>Permenant Ban:</span> '+$('#pb').val()+'</p><p id="case"><span>Timestamp:</span> '+currentTime()+'</p><p id="case"><span>Errors:</span>'+checks("rList")+'</p></div>';
+      if (checks("error")) {
+        $('#submitRealButton').attr('disabled', 'true');
+        $('#submitRealButton').css('background-color', '#3f3f3f');
+        $('#submitRealButton').css('border', 'none');
+        $('#submitRealButton').css('color', '#ccc');
+      }
       $('#confirmBody').html(linkify(list));
     }
     let staffList="";
@@ -275,8 +313,8 @@
       });
       gsl();
     });
-    function wordCount(str) { 
-      return str.split(" ").length;
+    function wordCount(str) {
+      return str.trim().split(/\s+/).length;
     }
     function gsl(){
       $.get('api/getStaffList', function(data){
