@@ -1,7 +1,7 @@
-<?php include "head.php"; ?>
+<?php $nonav=0;include "head.php"; ?>
 	<div class="card card-sm">
 		<div class="card-head">
-			<h2>Passport</h2>
+			<h2>Account</h2>
 		</div>
     <div class="card-med">
     	<div class="loginselector">
@@ -49,8 +49,9 @@
       selected=0;
     });
     $('#continue').click(function(){
+      $(this).html('<img src="img/loadw.svg" width="25px">');
     	if(selected===0){
-      	$.post('apiSignup.php',{ 
+      	$.post('api/signupUser',{ 
           first_name: $('#s-firstname').val(),
       		last_name: $('#s-lastname').val(),
           email: $('#s-email').val(),
@@ -64,14 +65,15 @@
             timeout: 3000,
             text: data,
           }).show();
+          $('#continue').text('Continue');
         });
       } else if(selected===1){
-      	$.post('apiLogin.php',{ 
+      	$.post('api/loginUser',{ 
           email: $('#l-email').val(),
       		password: $('#l-password').val(),
         },function(data){
           data=JSON.parse(data);
-        	if (data.token=="Failed") {notify="Login Failed. Try Again"; type='error';} else {notify="Login Success. Redirecting";type='success';}
+        	if (data.token=="Failed") {notify="Login Failed. Try Again"; type='error';$('#continue').text('Continue');} else {notify="Login Success. Redirecting";type='success';}
           new Noty({
             text: notify,
             progressBar: true,

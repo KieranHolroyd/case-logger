@@ -1,4 +1,4 @@
-<?php include "head.php"; ?>
+<?php $nonav=0;include "head.php"; ?>
 	<style>
 		body{
 			overflow: hidden;

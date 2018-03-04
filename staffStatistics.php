@@ -1,12 +1,11 @@
 <?php include "head.php"; ?>
-<?php include "navbar.php"; ?>
 <div class="cases-container">
   <div class="daily-cases"><b>Daily Cases</b></div><div class="weekly-cases"><b>Weekly Cases</b></div>
   <div class="topStaff"></div>
 </div>
 <script>
 $(document).ready(function(){
-  $.post('dailyCases.php', {}, function(data){
+  $.get('api/dailyCases', function(data){
     var cases=JSON.parse(data);
     new Chartist.Line('.daily-cases', {
       labels: ['Four Days Ago', 'Three Days Ago', 'Two Days Ago', 'Yesterday', 'Today'],
@@ -20,7 +19,7 @@ $(document).ready(function(){
       color: 'white'
     });
   });
-  $.post('weeklyCases.php', {}, function(data){
+  $.get('api/weeklyCases', function(data){
     var cases=JSON.parse(data);
     new Chartist.Line('.weekly-cases', {
       labels: ['A Month Ago', 'Three Weeks Ago', 'Two Weeks Ago', 'Last Week', 'This Week'],

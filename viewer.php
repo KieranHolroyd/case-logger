@@ -1,18 +1,17 @@
 <?php include "head.php"; ?>
-<?php include "navbar.php"; ?>
 <div class="searchBox-container">
   <a href="search?type=cases"><input type="text" class="searchBox" id="searchQuery" placeholder="Search All Cases"><button class="searchCases" id="searchCases">Search</button></a>
 </div>
 <div class="grid">
   <div class="grid__col grid__col--4-of-6" style="padding-left: 20px !important;">
     <h1 class="info-title">Case List</h1>
-    <div id="reports" style='height: calc(100vh - 164px) !important;' class="cscroll">
+    <div id="reports" style='height: calc(100vh - 118px) !important;' class="cscroll">
 
     </div>
     <button id="loadMore">Load More Cases</button>
   </div>
   <div class="grid__col grid__col--2-of-6">
-    <div id="case_info" style='height: calc(100vh - 94px);' class="cscroll">
+    <div id="case_info" style='height: calc(100vh - 49px);' class="cscroll">
       <h1>Select A Case To View Info.</h1>
     </div>
   </div>
@@ -23,8 +22,9 @@
   var list = "";
   var player_punished, player_banned, moreinfo, setMoreInfo, reporting_player;
   function getReports(){
+    if(offset === 0) {$('#reports').html("<img src='img/loadw.svg'>")}
     list="";
-    $.post('get.php',{ 'offset':offset },function(data){
+    $.post('api/getCases',{ 'offset':offset },function(data){
       cases=JSON.parse(data);
       if(cases.info.count < 100){
         $('#loadMore').hide();
@@ -41,17 +41,18 @@
         if(cases.caseno[i].ba==1){player_banned="Yes"} else {player_banned="No"}
         list += '<div class="case" onclick="getMoreInfo('+cases.caseno[i].id+')"><span style="float: right;font-size: 12px;">Lead Staff Member: '+cases.caseno[i].lead_staff+'</span><span style="font-size: 25px;">'+cases.caseno[i].id+'-'+reporting_player_name+'<br><span style="font-size: 12px; padding: 0;">Punishment? '+player_punished+' | Banned? '+player_banned+' | Timestamp: '+cases.caseno[i].timestamp+' | Report Type: '+cases.caseno[i].typeofreport+'</span></span></div>';
       }
-      $('#reports').append(list);
+      if(offset === 0) {$('#reports').html(list);} else {$('#reports').append(list);}
+      
       offset = offset+100;
     });
   };
   let players_involved, playersArray, player_title;
   function getMoreInfo(id){
-    $('#case_info').html("<p>Loading...</p>");
+    $('#case_info').html("<p><img src='img/loadw.svg'></p>");
     players_involved="";
     playersArray="";
     player_title="";
-    $.post('getMoreInfo.php',{ 'id':id },function(data){
+    $.post('api/getMoreInfo',{ 'id':id },function(data){
       moreinfo=JSON.parse(data);
       if(moreinfo.report.players!=="[]" && moreinfo.report.players!==""){
         playersArray=JSON.parse(moreinfo.report.players);

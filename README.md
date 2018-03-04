@@ -1,2 +1,5 @@
-# case-logger
-A case logger designed for arma 3 staff teams to be more efficient
+**Operation Purple Iron Bulldog** <br>
+*The New PsiSyn Staff Case Logger, created by* <br>
+- Kieran Holroyd
+- tagKnife
+- Justin Alexander

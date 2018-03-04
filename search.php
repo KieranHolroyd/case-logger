@@ -1,5 +1,5 @@
 <?php 
-include "head.php";include "navbar.php";
+include "head.php";
 $searchType=$_GET['type'];
 $searchQuery=$_GET['query'];
 ?>
@@ -9,12 +9,12 @@ $searchQuery=$_GET['query'];
 <div class="grid">
   <div class="grid__col grid__col--4-of-6" style="padding-left: 20px !important;">
     <h1 class="info-title" style='text-transform: capitalize;'>Search <?php echo $searchType; ?></h1>
-    <div id="reports" style='height: calc(100vh - 164px) !important;' class="cscroll">
-      <h1>Searching...</h1>
+    <div id="reports" style='height: calc(100vh - 118px) !important;' class="cscroll">
     </div>
   </div>
   <div class="grid__col grid__col--2-of-6">
-		<div id="case_info" style='height: calc(100vh - 94px);' class="cscroll">
+		<div id="case_info" style='height: calc(100vh - 49px);' class="cscroll">
+      <h2>Select A Case To View</h2>
     </div>
   </div>
 </div>
@@ -22,10 +22,10 @@ $searchQuery=$_GET['query'];
   var player_punished, player_banned, moreinfo, setMoreInfo, players_involved, playersArray, player_title;
   var query = "<?php echo $searchQuery; ?>";
 	function getStaffActivity(){
-    $('#reports').html('Searching...');
+    $('#reports').html('<img src="img/loadw.svg">');
     var other_staff;
     var other_staff_text;
-    $.post('getSearchResults.php',{'query':query},function(data){
+    $.post('api/getSearchResults',{'query':query},function(data){
       activity="";
       moreinfo=JSON.parse(data);
       if(moreinfo=="" || moreinfo=="{}"){
@@ -49,10 +49,11 @@ $searchQuery=$_GET['query'];
     });
   }
   function getCase(id){
+    $('#case_info').html('<img src="img/loadw.svg">');
     players_involved = "";
     playersArray = "";
     player_title = "";
-  	$.post('getMoreInfo.php',{ 'id':id },function(data){
+  	$.post('api/getMoreInfo',{ 'id':id },function(data){
       moreinfo=JSON.parse(data);
       if(moreinfo.report.players!=="[]" && moreinfo.report.players!==""){
         playersArray=JSON.parse(moreinfo.report.players);

@@ -1,5 +1,4 @@
 <?php session_start(); include "head.php"; $csrf=bin2hex(openssl_random_pseudo_bytes(32));$_SESSION['csrf']=$csrf; ?>
-  <?php include "navbar.php"; ?>
   <div class="grid" style="padding:15px;">
     <div class="grid__col grid__col--2-of-6 grid__col--push-2-of-6">
       <div id="basic_report">
@@ -14,7 +13,7 @@
   <button onclick="submit();" class="submitBtn">Submit</button>
   <script>
     function submit(){
-    	$.post('addSuggestion.php',{
+    	$.post('api/addSuggestion',{
       	'name': $('#sas').text(),
         'suggestion': $('#suggestion').val(),
         'csrf': $('#csrf').val()
