@@ -80,7 +80,7 @@
             type: type
         	}).show();
           userArraySet();
-          $.post("apiCheckLogin.php", {}, 
+          $.post("api/checkLogin", {}, 
           function(data){
             console.log(data)
             if (!data) {

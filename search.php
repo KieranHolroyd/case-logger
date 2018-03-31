@@ -13,7 +13,7 @@ $searchQuery=$_GET['query'];
     </div>
   </div>
   <div class="grid__col grid__col--2-of-6">
-		<div id="case_info" style='height: calc(100vh - 49px);' class="cscroll">
+		<div class="moreInfoPanel" id="case_info" style='height: calc(100vh - 49px);' class="cscroll">
       <h2>Select A Case To View</h2>
     </div>
   </div>
@@ -29,7 +29,7 @@ $searchQuery=$_GET['query'];
       activity="";
       moreinfo=JSON.parse(data);
       if(moreinfo=="" || moreinfo=="{}"){
-      	$('#reports').html("<h1> No Results Found </h1>");
+      	$('#reports').html("<h2 style='padding: 15px;'> No Results Found </h2>");
       }
       for (let i = 1; i < Object.keys(moreinfo.log).length + 1; i++) {
         other_staff="";

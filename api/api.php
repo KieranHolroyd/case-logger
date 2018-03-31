@@ -293,8 +293,9 @@ if ($_SERVER['REQUEST_METHOD']=='POST') {
         if($offset <= 0){
             $offset=0;
         }
-        $sql = "SELECT * FROM case_logs ORDER BY id DESC LIMIT 100 OFFSET $offset";
+        $sql = "SELECT * FROM case_logs ORDER BY id DESC LIMIT 100 OFFSET :offset";
         $query = $pdo->prepare($sql);
+        $query->bindValue(':offset', $offset, PDO::PARAM_INT);
         $query->execute();
         $rows = $query->fetchAll();
         $row_count=count($rows);
@@ -403,18 +404,39 @@ if ($_SERVER['REQUEST_METHOD']=='POST') {
       $logged_in=unserialize($_COOKIE['userArrayPHP']);
         if($logged_in['info']['slt']==1){
             $date = $_POST['date'];
-            $sltonly = ($_POST['slt']==1) ? true : false;
+            $sltonly = ($_POST['slt']==0) ? 0 : 1;
             $points = "{}";
-            $sql="INSERT INTO meetings (`date`, `slt`, `points`) VALUES (:dte, :sltonly, :points)";
+            $sql="INSERT INTO meetings (`date`, `slt`) VALUES (:dte, :sltonly)";
             $query = $pdo->prepare($sql);
             $query->bindValue(':dte', $date, PDO::PARAM_STR);
             $query->bindValue(':sltonly', $sltonly, PDO::PARAM_STR);
-            $query->bindValue(':points', $points, PDO::PARAM_STR);
             $query->execute();
             echo "Meeting Added Successfully";
         } else {
             echo "Insufficient Permissions.";
         }  
+    } else if ($url=="addComment") {
+        $stmt = $pdo->prepare("SELECT comments FROM meeting_points WHERE id = :id");
+        $stmt->bindValue(":id", $_POST['pointID'], PDO::PARAM_STR);
+        $stmt->execute();
+        $fetched = $stmt->fetch();
+        $comments = json_decode($fetched->comments);
+        $newcomment = json_decode($_POST['comment']);
+        $newcomments = (object) array_merge((array) $comments, (array) $newcomment);
+
+        $stmt = $pdo->prepare("UPDATE meeting_points SET comments = :comments WHERE id = :id");
+        $stmt->bindValue(":comments", json_encode($newcomments), PDO::PARAM_STR);
+        $stmt->bindValue(":id", $_POST['pointID'], PDO::PARAM_STR);
+        $stmt->execute();
+        echo "Success";
+    } else if ($url=="addPoint") {
+        $stmt = $pdo->prepare("INSERT INTO meeting_points (`name`, `description`, `author`, `meetingID`, `comments`, `votes`) VALUES (:pointname, :pointdescription, :author, :meetingID, '{}', '{}')");
+        $stmt->bindValue(":pointname", $_POST['pointName'], PDO::PARAM_STR);
+        $stmt->bindValue(":pointdescription", $_POST['pointDescription'], PDO::PARAM_STR);
+        $stmt->bindValue(":author", $_POST['name'], PDO::PARAM_STR);
+        $stmt->bindValue(":meetingID", $_POST['meetingID'], PDO::PARAM_STR);
+        $stmt->execute();
+        print_r($stmt->errorinfo());
     }
 } else if ($_SERVER['REQUEST_METHOD']=='GET') {
     if ($url=="dailyCases") {
@@ -551,24 +573,60 @@ if ($_SERVER['REQUEST_METHOD']=='POST') {
         $arr = [];
         $i = 1;
         foreach ($pdo->query("SELECT * FROM meetings ORDER BY date DESC") as $meeting) {
-            $pointCount = count(json_decode($meeting->points));
             $theDate = DateTime::createFromFormat('Y-m-d', $meeting->date);
             if(!$meeting->slt){
+                $arr[$i]['id'] = $meeting->id;
                 $arr[$i]['date'] = $theDate->format('d/m/Y');
                 $arr[$i]['wrongDate'] = $theDate->format('m/d/Y');
-                $arr[$i]['points'] = $pointCount;
                 $i++;
             } else {
                 if(unserialize($_COOKIE['userArrayPHP'])['info']['slt'] == 1){
+                    $arr[$i]['id'] = $meeting->id;
                     $arr[$i]['date'] = $theDate->format('d/m/Y');
                     $arr[$i]['wrongDate'] = $theDate->format('m/d/Y');
-                    $arr[$i]['points'] = $pointCount;
                     $arr[$i]['slt'] = true;
                     $i++;
                 }
             }
         }
         echo json_encode($arr);
+    } else if ($url=="getMeeting") {
+        $arr = [];
+        $stmt = $pdo->prepare("SELECT * FROM meetings WHERE id=:id");
+        $stmt->bindValue(":id", $_GET['meetingID'], PDO::PARAM_STR);
+        $stmt->execute();
+        $meeting = $stmt->fetch();
+        $pointCount = count(json_decode($meeting->points));
+        $theDate = DateTime::createFromFormat('Y-m-d', $meeting->date);
+        $arr['id'] = $meeting->id;
+        $arr['date'] = $theDate->format('d/m/Y');
+        $arr['wrongDate'] = $theDate->format('m/d/Y');
+        $arr['pointCount'] = $pointCount;
+        $arr['points'] = $meeting->points;
+        $arr['slt'] = true;
+        echo json_encode($arr);
+     } else if ($url=="getMeetingPoints") {
+        $arr = [];
+        $stmt = $pdo->prepare("SELECT * FROM meeting_points WHERE meetingID=:id ORDER BY id DESC");
+        $stmt->bindValue(":id", $_GET['meetingID'], PDO::PARAM_STR);
+        $stmt->execute();
+        $points = $stmt->fetchAll();
+        $i=0;
+        foreach ($points as $point) {
+            $arr[$i]['id'] = $point->id;
+            $arr[$i]['name'] = $point->name;
+            $arr[$i]['author'] = $point->author;
+            $arr[$i]['votes'] = $point->votes;
+            $arr[$i]['comments'] = $point->comments;
+            $i++;
+        }
+        echo json_encode($arr);
+     } else if ($url=="getMeetingPoint") {
+        $stmt = $pdo->prepare("SELECT * FROM meeting_points WHERE id=:id");
+        $stmt->bindValue(":id", $_GET['pointID'], PDO::PARAM_STR);
+        $stmt->execute();
+        $point = $stmt->fetch(PDO::FETCH_ASSOC);
+        echo json_encode($point);
     } else if ($url=="getFiles") {
         $jsonReturn = file_get_contents("https://eelis.me/a3_ah/api/files/list?apikey=dsjf83ufjosdjfkljsklfs");
         echo $jsonReturn;

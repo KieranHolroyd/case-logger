@@ -50,7 +50,7 @@
       else if (moreinfo.team==2){staffbgc="#429ef4";}
       else if (moreinfo.team==3){staffbgc="#41f49d";}
       else if (moreinfo.team==4){staffbgc="#f44141";}
-      else {staffbgc="#444";}
+      else {staffbgc="#fff";}
       if(moreinfo.activity_warning==true){actwarn_start="<span style='color: orange;' title='Activity Warning'>";actwarn_end="</span>";}
       setMoreInfo="<h1 style='color: "+staffbgc+";'>"+moreinfo.name+"</h1><p style='color: "+staffbgc+";'>"+moreinfo.rank+" of Staff Team "+moreinfo.team+"</p><p style='color: "+staffbgc+";'>"+moreinfo.casecount+" Cases Complete ("+actwarn_start+moreinfo.casecount_week+" This week"+actwarn_end+")</p>";
       if(moreinfo.casecount>0){
@@ -75,13 +75,13 @@
 	function assign_rank(id, rank){
   	$.post('api/setStaffRank',{ 'id':id,'rank':rank },function(data){
     	getStaffTeam();
-      $('#staff_info').html("<h1>Select A Staff Member To Get Statistics</h1>");
+      getMoreInfo(id);
     });
   }
   function assign_team(id, team){
-  	$.post('api/setStaffTeam',{ 'id':id,'team':team },function(data){
-    	getStaffTeam();
-      $('#staff_info').html("<h1>Select A Staff Member To Get Statistics</h1>");
+    $.post('api/setStaffTeam',{ 'id':id,'team':team },function(data){
+      getStaffTeam();
+      getMoreInfo(id);
     });
   }
   function removeFromLogger(id){

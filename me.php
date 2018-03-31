@@ -7,7 +7,7 @@
     </div>
   </div>
   <div class="grid__col grid__col--2-of-6">
-    <div id="case_info" class="cscroll">
+    <div class="moreInfoPanel" id="case_info" class="cscroll">
     </div>
   </div>
 </div>
@@ -21,21 +21,25 @@
     $.post('api/getStaffActivity',{ 'id':userArray.info.username },function(data){
       activity="";
       moreinfo=JSON.parse(data);
-      for (let i = 1; i < Object.keys(moreinfo.log).length + 1; i++) {
-        other_staff="";
-        other_staff_text="";
-        reporting_player="";
-        if(moreinfo.log[i].reporting_player!=="[]" && moreinfo.log[i].reporting_player!=="" && moreinfo.log[i].reporting_player!==null && moreinfo.log[i].reporting_player!=="null"){
-          reporting_player=JSON.parse(moreinfo.log[i].reporting_player);
-        	reporting_player_name=reporting_player[1].name;
-        } else {
-        	reporting_player_name="undefined";
+      if (!$.isEmptyObject(moreinfo.log)) {
+        for (let i = 1; i < Object.keys(moreinfo.log).length + 1; i++) {
+          other_staff="";
+          other_staff_text="";
+          reporting_player="";
+          if(moreinfo.log[i].reporting_player!=="[]" && moreinfo.log[i].reporting_player!=="" && moreinfo.log[i].reporting_player!==null && moreinfo.log[i].reporting_player!=="null"){
+            reporting_player=JSON.parse(moreinfo.log[i].reporting_player);
+            reporting_player_name=reporting_player[1].name;
+          } else {
+            reporting_player_name="undefined";
+          }
+          if(moreinfo.log[i].other_staff==true){other_staff="other_staff";other_staff_text=" (Support)";}
+          activity += '<div class="staffActivityCard '+other_staff+'" onclick="getCase('+moreinfo.log[i].id+')">'+moreinfo.log[i].id+" - "+reporting_player_name+other_staff_text+'<br>'+moreinfo.log[i].doe+'</div>'
         }
-        if(moreinfo.log[i].other_staff==true){other_staff="other_staff";other_staff_text=" (Support)";}
-      	activity += '<div class="staffActivityCard '+other_staff+'" onclick="getCase('+moreinfo.log[i].id+')">'+moreinfo.log[i].id+" - "+reporting_player_name+other_staff_text+'<br>'+moreinfo.log[i].doe+'</div>'
+        setMoreInfo="<h1>"+name+"</h1><div>"+activity+"</div>";
+        $('#reports').html(setMoreInfo);
+      } else {
+        $('#reports').html("<h2 style='padding: 15px'>You Haven't Submitted Any Cases Yet.</h2>");
       }
-      setMoreInfo="<h1>"+name+"</h1><div>"+activity+"</div>";
-      $('#reports').html(setMoreInfo);
     });
   }
   function getCase(id){

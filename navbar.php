@@ -1,6 +1,6 @@
 <div id="topLevel">
   <div id="nav">
-    <a href="./">Dashboard</a>
+    <a href="<?php echo $url; ?>">Dashboard</a>
     <a style="cursor:pointer;" id="openMore" opened="false">Navigation</a>
     <a id="time" style="color: #222;cursor:default;"></a>
   </div>

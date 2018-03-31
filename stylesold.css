@@ -378,20 +378,6 @@ button:hover{
 #staff_info h2{
 	text-align: justify;
 }
-#case_info{
-	box-shadow: 0 0 5px 0 rgba(0,0,0,0.2);
-  background-color: #3a3a3a;
-  height: 100vh;
-  overflow: auto;
-  z-index: 1;
-}
-#guide_info{
-	box-shadow: 0 0 5px 0 rgba(0,0,0,0.2);
-  background-color: #3a3a3a;
-  height: 100vh;
-  overflow: auto;
-  z-index: 1;
-}
 #navBar{
 	background-color: #333;
   height: 43px;

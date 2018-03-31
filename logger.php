@@ -27,6 +27,29 @@
         </div>
         <p class="label">Punishment</p>
         <button class="pickbtn" id="PunishmentReportButton">Add Punishment Report</button>
+        <button class="pickbtn" id="addPointsButton">Add Points</button>
+        <div class="reportTypes" id="addPointsList">
+          <button class="pickbtn" onclick="addPoints('Fail Roleplay/OOC', 10)">Fail RP/OOC</button>
+          <button class="pickbtn" onclick="addPoints('RDM/WAR', 10)">RDM/WAR</button>
+          <button class="pickbtn" onclick="addPoints('VDM', 10)">VDM</button>
+          <button class="pickbtn" onclick="addPoints('Major Disrespect', 25)">Major Disrespect</button>
+          <button class="pickbtn" onclick="addPoints('Racism', 50)">Racism</button>
+          <button class="pickbtn" onclick="addPoints('Combat Logging', 15)">Combat Logging</button>
+          <button class="pickbtn" onclick="addPoints('Combat Storing', 15)">Combat Storing</button>
+          <button class="pickbtn" onclick="addPoints('Meta Gaming', 20)">Meta Gaming</button>
+          <button class="pickbtn" onclick="addPoints('Safezone Violation', 10)">Safezone Violation</button>
+          <button class="pickbtn" onclick="addPoints('Exploiting', 25)">Exploiting</button>
+          <button class="pickbtn" onclick="addPoints('Hacking / Dupping', 50)">Hacking / Dupping</button>
+          <button class="pickbtn" onclick="addPoints('NLR Violation', 10)">NLR Violation</button>
+          <button class="pickbtn" onclick="addPoints('Police Violation', 10)">Police Violation</button>
+          <button class="pickbtn" onclick="addPoints('EMS Violation', 10)">EMS Violation</button>
+          <button class="pickbtn" onclick="addPoints('Mass RDM', 25)">Mass RDM (3+ Killed)</button>
+          <button class="pickbtn" onclick="addPoints('Mass VDM', 25)">Mass VDM (3+ Killed)</button>
+          <button class="pickbtn" onclick="addPoints('Website Violation', 10)">Website Violation</button>
+          <button class="pickbtn" onclick="addPoints('Lying to Staff', 15)">Lying to Staff</button>
+          <button class="pickbtn" onclick="addPoints('Disconnecting in Support', 15)">Disconnecting in Support</button>
+          <button class="pickbtn" onclick="addPoints('Sexual Roleplay', 50)">Sexual Roleplay</button>
+        </div>
         <p class="label">Ban</p>
         <button class="pickbtn" id="BanReportButton">Add Ban Report</button>
       </div>
@@ -76,6 +99,9 @@
     $('#TypeOfReportButton').click(function(){
       $('#TypeOfReportList').slideToggle(200);
     });
+    $('#addPointsButton').click(function(){
+      $('#addPointsList').slideToggle(300);
+    });
     $(document).on('click', '.tor', function () {
       var typeofreport = $(this).attr('value');
       $('#typeOfReportField').val(typeofreport);
@@ -102,12 +128,41 @@
         $('#BanReportButton').removeAttr('open');
         banReport = 0;
       } else {
+        if (!$('#punishmentReportButton').attr('open')) {
+          $('#punishmentReport').slideDown();
+          $('#PunishmentReportButton').text('Remove Punishment Report');
+          $('#PunishmentReportButton').attr('open', true);
+          punishmentReport = 1;
+        }
         $('#banReport').slideDown();
         $('#BanReportButton').text('Remove Ban Report');
         $('#BanReportButton').attr('open', true);
         banReport = 1;
       }
     });
+    function addPoints(reason, amount) {
+      let current = $('#aop').val();
+      if(current !== ""){
+        current = parseInt(current);
+      }
+      if (!$('#PunishmentReportButton').attr('open')) {
+        $('#punishmentReport').slideDown();
+        $('#PunishmentReportButton').text('Remove Punishment Report');
+        $('#PunishmentReportButton').attr('open', true);
+        punishmentReport = 1;
+      }
+      if (typeof current == "number") {
+        current += amount;
+      } else {
+        current = amount;
+      }
+      new Noty({
+        type: 'info',
+        text: 'Added ' + amount + ' Points For ' + reason,
+        timeout: 5000
+      }).show();
+      $('#aop').val(current);
+    }
     function checks(get) {
       var rList = [];
       var error = false;
@@ -288,20 +343,34 @@
         }
       });
       $('#addPlayerReporter').click(function(){
+        if (playerCount < 25) { 
           playerCount++;
         	playerArray.push({
-          	reporter:''
+            reporter:''
           });
         	$('#playerList').append("<div class='field' style='display: none;'><div class='fieldTitle'>Player Involved #"+playerCount+" (Reporter)</div><input class='fieldInput' id='player"+playerCount+"' placeholder='Add Reporter'><input class='fieldInput' id='playerGUID"+playerCount+"' placeholder='Player GUID'></div>");
         	$('#playerList .field').last().slideDown(150);
+        } else {
+          new Noty({
+            text: 'Maximum Of 25 Players',
+            type: 'error'
+          }).show();
+        }
       });
       $('#addPlayerReported').click(function(){
+        if (playerCount < 25) { 
           playerCount++;
           playerArray.push({
             reported:''
           });
         	$('#playerList').append("<div class='field' style='display: none;'><div class='fieldTitle'>Player Involved #"+playerCount+" (Reported)</div><input class='fieldInput' id='player"+playerCount+"' placeholder='Add Reported Player'><input class='fieldInput' id='playerGUID"+playerCount+"' placeholder='Player GUID'></div>");
-        	$('#playerList .field').last().slideDown(150);
+          $('#playerList .field').last().slideDown(150);
+        } else {
+          new Noty({
+            text: 'Maximum Of 25 Players',
+            type: 'error'
+          }).show();
+        }
       })
       $('#removePlayer').click(function(){
         if(playerCount>1){

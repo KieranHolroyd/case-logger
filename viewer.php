@@ -11,7 +11,7 @@
     <button id="loadMore">Load More Cases</button>
   </div>
   <div class="grid__col grid__col--2-of-6">
-    <div id="case_info" style='height: calc(100vh - 49px);' class="cscroll">
+    <div class="moreInfoPanel" id="case_info" style='height: calc(100vh - 49px);' class="cscroll">
       <h1>Select A Case To View Info.</h1>
     </div>
   </div>
@@ -22,6 +22,7 @@
   var list = "";
   var player_punished, player_banned, moreinfo, setMoreInfo, reporting_player;
   function getReports(){
+    console.log("getReports");
     if(offset === 0) {$('#reports').html("<img src='img/loadw.svg'>")}
     list="";
     $.post('api/getCases',{ 'offset':offset },function(data){
@@ -29,23 +30,27 @@
       if(cases.info.count < 100){
         $('#loadMore').hide();
       }
-      for (let i = 1; i < Object.keys(cases.caseno).length + 1; i++) {
-        reporting_player="";
-        if(cases.caseno[i].reporting_player!=="[]" && cases.caseno[i].reporting_player!=="" && cases.caseno[i].reporting_player!==null && cases.caseno[i].reporting_player!=="null"){
-          reporting_player=JSON.parse(cases.caseno[i].reporting_player);
-        	reporting_player_name=reporting_player[1].name;
-        } else {
-        	reporting_player_name="undefined";
+      if (!$.isEmptyObject(cases.caseno)) {
+        for (let i = 1; i < Object.keys(cases.caseno).length + 1; i++) {
+          reporting_player="";
+          if(cases.caseno[i].reporting_player!=="[]" && cases.caseno[i].reporting_player!=="" && cases.caseno[i].reporting_player!==null && cases.caseno[i].reporting_player!=="null"){
+            reporting_player=JSON.parse(cases.caseno[i].reporting_player);
+            reporting_player_name=reporting_player[1].name;
+          } else {
+            reporting_player_name="undefined";
+          }
+          if(cases.caseno[i].pa==1){player_punished="Yes"} else {player_punished="No"}
+          if(cases.caseno[i].ba==1){player_banned="Yes"} else {player_banned="No"}
+          list += '<div class="case" id="caseNo'+cases.caseno[i].id+'" onclick="getMoreInfo('+cases.caseno[i].id+')"><span style="float: right;font-size: 12px;">Lead Staff Member: '+cases.caseno[i].lead_staff+'</span><span style="font-size: 25px;">'+cases.caseno[i].id+'-'+reporting_player_name+'<br><span style="font-size: 12px; padding: 0;">Punishment? '+player_punished+' | Banned? '+player_banned+' | Timestamp: '+cases.caseno[i].timestamp+' | Report Type: '+cases.caseno[i].typeofreport+'</span></span></div>';
         }
-        if(cases.caseno[i].pa==1){player_punished="Yes"} else {player_punished="No"}
-        if(cases.caseno[i].ba==1){player_banned="Yes"} else {player_banned="No"}
-        list += '<div class="case" onclick="getMoreInfo('+cases.caseno[i].id+')"><span style="float: right;font-size: 12px;">Lead Staff Member: '+cases.caseno[i].lead_staff+'</span><span style="font-size: 25px;">'+cases.caseno[i].id+'-'+reporting_player_name+'<br><span style="font-size: 12px; padding: 0;">Punishment? '+player_punished+' | Banned? '+player_banned+' | Timestamp: '+cases.caseno[i].timestamp+' | Report Type: '+cases.caseno[i].typeofreport+'</span></span></div>';
+        if(offset === 0) {$('#reports').html(list)} else {$('#reports').append(list)}
+      } else {
+        if(offset === 0) {$('#reports').html("<h2 style='padding: 15px;'>There Has Been An Error Fetching More Cases</h2>")} else {$('#reports').append("<h2 style='padding: 15px;'>There Has Been An Error Fetching More Cases</h2>")}
       }
-      if(offset === 0) {$('#reports').html(list);} else {$('#reports').append(list);}
       
       offset = offset+100;
-    });
-  };
+      });
+    };
   let players_involved, playersArray, player_title;
   function getMoreInfo(id){
     $('#case_info').html("<p><img src='img/loadw.svg'></p>");
@@ -69,7 +74,7 @@
     });
     
   }
-  function userArrayLoaded(){
+  function userArrayLoaded() {
     if((userArray.info.slt==="1" || userArray.info.dev=="1")){
       getReports();
     }

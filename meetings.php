@@ -26,7 +26,7 @@
         }
     }
     function getMeetings() {
-        $.get('api/getMeetings', function(data) {
+        $.get('https://www.nitrexdesign.co.uk/caselogger/api/getMeetings', function(data) {
             var list = "";
             var json = JSON.parse(data);
             for(var i=1; i<Object.keys(json).length + 1; i++){
@@ -35,7 +35,7 @@
                 var slt = "";
                 if(json[i].date == "<?php echo date("d/m/Y"); ?>") {color = "ff9966";today = " [Today]";}
                 if(json[i].slt !== undefined) {slt = " [SLT]";}
-                list += '<a href="logger"><div class="navCard-small"><div class="navCard-items"><p class="title" title="<b>'+json[i].wrongDate+' </b><img width=\'16px\' src=\'https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.0.0/flags/4x3/us.svg\'>" style="color:#'+color+';">'+json[i].date+today+slt+'</p><p class="shortcontent" style="color:#16a085;">'+json[i].points+' Points From Staff</p></div></div></a>';
+                list += '<a href="meetings/'+json[i].id+'"><div class="navCard-small"><div class="navCard-items"><p class="title" title="<b>'+json[i].wrongDate+' </b><img width=\'16px\' src=\'https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.0.0/flags/4x3/us.svg\'>" style="color:#'+color+';">'+json[i].date+today+slt+'</p><p class="shortcontent" style="color:#16a085;">'+json[i].points+' Points From Staff</p></div></div></a>';
             }
             $('#meetings').html(list);
             tippy('.title');
@@ -43,7 +43,7 @@
     }
     getMeetings();
     function addNewMeeting() {
-        $.post('api/addMeeting', {
+        $.post('https://www.nitrexdesign.co.uk/caselogger/api/addMeeting', {
             "date":$('#date').val(),
             "slt":$('#sltonly').val()
         }, function (data) {

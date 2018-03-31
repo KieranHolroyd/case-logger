@@ -12,7 +12,7 @@
     </div>
   </div>
   <div class="grid__col grid__col--4-of-6">
-    <div id="guide_info" class="cscroll">
+    <div class="moreInfoPanel" id="guide_info" class="cscroll">
       <h1>Select A Guide To View.</h1>
     </div>
   </div>
@@ -36,7 +36,7 @@
 <script>
   var list, guide, item, currently_editing;
   function checkIfSLT(){
-  	if(userArray.info.slt==1){
+  	if(userArray.info.slt==1 || userArray.info.dev==1){
     	$('#cngcont').slideDown(100);
     }
   }
@@ -56,7 +56,7 @@
     item = "";
     $.post('api/getFullGuide', { 'id':id }, function(data){
       guide = JSON.parse(data);
-      if(userArray.info.slt==1){
+      if(userArray.info.slt==1 || userArray.info.dev==1){
       	item = "<button onclick='edit_open("+id+")' id='modalLaunch' launch='editGuide' style='margin: 0;width: 100%;'>Edit This</button>";
       }
     	item += "<h1>"+guide.title+"</h1><p>"+guide.time+" | "+guide.author+"</p><div>"+guide.body+"</div>";

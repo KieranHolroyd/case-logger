@@ -171,3 +171,16 @@ body{
   filter:blur(15%);
   z-index: 1;
 }
+.moreInfoPanel{
+	box-shadow: 0 0 5px 0 rgba(0,0,0,0.2);
+  background-color: #3a3a3a;
+  height: 100vh;
+  overflow: auto;
+  z-index: 1;
+}
+.moreInfoPanel h1, .moreInfoPanel h2 {
+  margin: 10px;
+}
+.field-bdrs{
+    border-radius: 6px !important;
+}
