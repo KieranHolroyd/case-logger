@@ -10,7 +10,7 @@
 	<div id="titleText" style="z-index:2;">
 		<h1 id="welcome" style="padding: 10px;display:inline-block;">Hello, Human</h1><h1 style="padding: 10px;float:right;display:inline-block;" id="dtime"></h1>
 	</div>
-		<a href="logger">
+		<a href="logger.php">
 			<div class="navCard">
 				<div class="navCard-items">
 					<p class="title" style="color:#1abc9c;"><i class="fas fa-clipboard" style="padding-right: 10px;color:#1abc9c;"></i> Log Case</p>
@@ -18,7 +18,7 @@
 				</div>
 			</div>  
 		</a>
-		<a href="guides">
+		<a href="guides.php">
 			<div class="navCard">
 				<div class="navCard-items">
 					<p class="title" style="color:#e67e22;"><i class="fas fa-book" style="padding-right:10px;color:#e67e22;"></i> Guides</p>
@@ -26,7 +26,7 @@
 				</div>
 			</div>  
 		</a>
-		<a href="me">
+		<a href="me.php">
 			<div class="navCard">
 				<div class="navCard-items">
 					<p class="title" style="color:#2ecc71;"><i class="fas fa-address-card" style="padding-right:10px;color:#2ecc71;"></i> Profile</p>
@@ -34,7 +34,7 @@
 				</div>
 			</div>  
 		</a>
-		<a href="meetings">
+		<a href="meetings.php">
 			<div class="navCard-small">
 				<div class="navCard-items">
 					<p class="title"><i class="far fa-calendar-alt" style="padding-right: 10px;"></i> Meetings</p>
@@ -42,7 +42,7 @@
 				</div>
 			</div>  
 		</a>
-		<a href="logs">
+		<a href="logs.php">
 			<div class="navCard-small">
 				<div class="navCard-items">
 					<p class="title"><i class="fas fa-book"></i> Server Logs</p>
