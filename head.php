@@ -1,89 +1,134 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <?php $url = "https://www.nitrexdesign.co.uk/caselogger/"; ?>
-	<meta charset="UTF-8">
-  <title>Psisyn.com | Staff</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toast-css/1.1.0/grid.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.css">
-  <link rel="stylesheet" href="<?php echo $url; ?>styles.css">
-  <link href="https://use.fontawesome.com/releases/v5.0.7/css/all.css" rel="stylesheet">
-  <link rel="stylesheet" href="<?php echo $url; ?>stylesold.css">
-  <link rel="stylesheet" href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
-  <script src="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
-  <script src="<?php echo $url; ?>js/app.js"></script>
-  <?php if(!isset($nonav)): ?>
-    <script src="<?php echo $url; ?>js/dragUI.js"></script>
-  <?php endif; ?>
-  <script src="<?php echo $url; ?>js/modal.js"></script>
-</head>
+<?php
+header("Access-Control-Allow-Origin: *");
+include_once $_SERVER['DOCUMENT_ROOT'] . '/db.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/classes/User.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/classes/Auth.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/classes/Guard.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/classes/Helpers.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/classes/Config.php';
+$user = new User();
+if ($user->error && !Helpers::viewingPublicPage()) {
+    header("Location: /passport");
+}
+if (!$user->verified(false) && !Helpers::viewingPublicPage()) {
+    header("Location: /errors/awaitingapproval");
+}
+if ($user->isOnLOA() && $_SERVER['REQUEST_URI'] != '/errors/youreonloa') {
+    header("Location: /errors/youreonloa");
+}
+if ($user->isSuspended() && $_SERVER['REQUEST_URI'] != '/errors/suspended') {
+    header("Location: /errors/suspended");
+}
+$url = "https://panel.arma-life.com/"; ?>
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>arma-life.com | Staff</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <link rel="stylesheet"
+              href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toast-css/1.1.0/grid.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.css">
+        <link href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" rel="stylesheet">
+        <link rel="stylesheet" href="<?php echo $url; ?>styles.css?<?php echo rand(0, 1000000);?>">
+        <link rel="stylesheet" href="<?php echo $url; ?>stylesold.css?26">
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
+        <script src="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+        <script src="https://js.pusher.com/4.3/pusher.min.js"></script>
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script src="<?php echo $url; ?>js/app.js?29"></script>
+        <?php if (!isset($nonav)): ?>
+            <script src="<?php echo $url; ?>js/dragUI.js?15"></script>
+        <?php endif; ?>
+        <script src="<?php echo $url; ?>js/modal.js?3"></script>
+    </head>
 <body>
-  <script>
+<?php if (!isset($nonav)) include "newnav.php"; ?>
+<div class="overlayContainer"></div>
+<?php if ($user->verified()) include 'chat.php'; ?>
+<script>
     let loginToken = "<?php echo $_COOKIE['LOGINTOKEN'];?>";
-    var userArray;
-  	function userArraySet (){
-      $.get("<?php echo $url; ?>api/getUserInfo", function(data){
-        user=JSON.parse(data);
-        userArray=user;
-        if (typeof vm !== 'undefined') {
-          vm.user = user;
-        }
-        if(userArray.info.id===""){
-          if(window.location.pathname!=="/caselogger/holdingpage" && window.location.pathname!=="/caselogger/passport"){
-            location.replace('<?php echo $url; ?>holdingpage');
-            if (!isStaff()) {
-              window.location.replace("<?php echo $url; ?>holdingpage");
+    let userArray;
+
+    function userArraySet() {
+        $.get("<?php echo $url; ?>api/getUserInfo", (data) => {
+            let user = JSON.parse(data);
+            userArray = user;
+            if (typeof vm !== 'undefined') {
+                vm.user = user;
             }
-          }
-        }
-        if(userArray.info.slt==="1" || userArray.info.dev=="1"){
-          $('#moreMenu').prepend("<a href='<?php echo $url; ?>viewer'>Case Viewer</a><a href='<?php echo $url; ?>search?type=cases'>Case Search</a><a href='<?php echo $url; ?>staff'>Staff Manager</a>");
-        }
-        if(userArray.info.dev=="1"){
-          $('#moreMenu').prepend("<a href='<?php echo $url; ?>viewSuggestions'>View Suggestions</a>");
-        }
-        $('#welcome').html('Hello, '+userArray.info.username);
-        $('#lsm').val(userArray.info.username);
-        $('#sas').html(userArray.info.username);
-        $('#moreMenu').append("<a href='<?php echo $url; ?>staffStatistics'>Staff Statistics</a><a onclick='logout();'>Logout</a>");
-        $('#moreMenu').delay(150).prepend("<a href='<?php echo $url; ?>'>Dashboard</a><a href='<?php echo $url; ?>logger'>Case Logger</a><a href='<?php echo $url; ?>suggestions'>Suggestion Box</a><a href='<?php echo $url; ?>me'>My Stats</a><a href='<?php echo $url; ?>guides'>Guides</a><a href='<?php echo $url; ?>meetings'>Meetings</a><a href='<?php echo $url; ?>logs'>Server Logs</a>");
-        $('#usernameNav').text(" | "+userArray.info.firstname+" "+userArray.info.lastname);
-        userArrayLoaded();
-    	});
+            $('#welcome').html('Hello, ' + userArray.info.username);
+            if (typeof userArrayLoaded === 'function') userArrayLoaded();
+        });
     }
-    function isStaff() {
-      if (userArray.permissions.submitReport==1) {
-        return true;
-      } else {
-        return false;
-      }
-    }
+
     $(window).on('load', userArraySet());
-    function logout(){
-    	$.post("<?php echo $url; ?>api/logoutUser", {token: loginToken}, function(data){
-        window.location.replace("passport")
-        console.log(data)
-      })
-      userArray = {};
+
+    function logout() {
+        $.post("<?php echo $url; ?>api/logoutUser", {token: loginToken}, function (data) {
+            window.location.replace("/passport");
+            console.log(data)
+        });
+        userArray = {};
     }
-    function currentTime(){
-      var currentTime = new Date()
-      var hours = currentTime.getHours()
-      var minutes = currentTime.getMinutes()
-      var seconds = currentTime.getSeconds()
-      if (minutes < 10){minutes = "0" + minutes;}
-      if (seconds < 10){seconds = "0" + seconds;}
-      var time = hours + ":" + minutes + ":" + seconds + " ";
-      if(hours > 11){time += "PM";} else {time += "AM";}
-      return time;
+
+    function currentTime() {
+        let currentTime = new Date();
+        let hours = currentTime.getHours();
+        let minutes = currentTime.getMinutes();
+        let seconds = currentTime.getSeconds();
+        if (minutes < 10) {
+            minutes = "0" + minutes;
+        }
+        if (seconds < 10) {
+            seconds = "0" + seconds;
+        }
+        let time = hours + ":" + minutes + ":" + seconds + " ";
+        if (hours > 11) {
+            time += "PM";
+        } else {
+            time += "AM";
+        }
+        return time;
     }
-  </script>
-  <?php if(!isset($nonav)) include "navbar.php"; ?>
+</script>
+<?php if ($user->info->essentialNotification != '' && !$user->info->readEssentialNotification): ?>
+    <div class="modal" id="essentialNotification" style="display: block;">
+        <button id="close">×</button>
+        <div class="content open" style="max-width: 500px;border-radius: 5px;">
+            <h2>Attention!</h2>
+            <?= $user->info->essentialNotification; ?>
+            <div class="btnGroup">
+                <button onclick="markNotificationRead()">Mark As Read</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        function markNotificationRead() {
+            closeAllModal();
+            $.post('/api/markEssentialRead', {}, data => {
+                data = JSON.parse(data);
+                if (data.code === 200) {
+                    new Noty({
+                        type: 'success',
+                        text: 'Marked As Read',
+                        timeout: 4000
+                    }).show();
+                } else {
+                    new Noty({
+                        type: 'error',
+                        text: data.message,
+                        timeout: 4000
+                    }).show();
+                }
+            });
+        }
+    </script>
+<?php endif; ?>

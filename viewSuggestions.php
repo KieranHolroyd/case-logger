@@ -1,35 +1,40 @@
-<?php include "head.php"; ?>
-<div class="grid">
-  <div class="grid__col grid__col--4-of-6" style="padding-left: 20px !important;">
-    <h1 class="info-title" id="welcome"></h1>
-    <div id="reports">
-			
+<?php include "head.php";
+$auth = new Auth;
+$auth->SLTRequired();
+?>
+    <div class="grid">
+        <div class="grid__col grid__col--4-of-6" style="padding-left: 20px !important;">
+            <h1 class="info-title" id="welcome">Hello, <?=$auth->info->username;?></h1>
+            <div id="reports" style="height: calc(100% - 68px);">
+                <img src="img/loadw.svg" alt="Failed To Load">
+            </div>
+        </div>
+        <div class="grid__col grid__col--2-of-6">
+            <div class="moreInfoPanel" id="case_info">
+            </div>
+        </div>
     </div>
-  </div>
-  <div class="grid__col grid__col--2-of-6">
-    <div id="case_info">
-    </div>
-  </div>
-</div>
-<script>
-  var setMoreInfo = "";
-  var suggestion = "";
-  var name = "";
-	function getSuggestions(){
-    $.get('api/getSuggestions',function(data){
-      moreinfo=JSON.parse(data);
-      for (let i = 1; i < Object.keys(moreinfo).length + 1; i++) {
-        setMoreInfo += '<div class="staffActivityCard" id="'+moreinfo[i].id+'" onclick="more('+moreinfo[i].id+')"><span id="name">'+moreinfo[i].name+'</span><br><span id="suggestion">'+moreinfo[i].suggestion+'</span></div>'
-      }
-      $('#reports').html(setMoreInfo);
-    });
-  }
-  function more(id){
-  	suggestion = $('#'+id+' #suggestion').text();
-    name = $('#'+id+' #name').text();
-    setMoreInfo = "<h2>"+name+"'s Suggestion</h2><br><p><span>Suggestion: </span>"+suggestion+"</p>";
-    $('#case_info').html(linkify(setMoreInfo));
-  }
-  getSuggestions();
-</script>
+    <script>
+        let setMoreInfo = "";
+
+        function getSuggestions() {
+            $.get('api/getSuggestions', function (data) {
+                moreinfo = JSON.parse(data);
+                for (let i = 1; i < Object.keys(moreinfo.response).length + 1; i++) {
+                    let suggestion = moreinfo.response[i];
+                    setMoreInfo += `<div class="staffActivityCard" id="${suggestion.id}" onclick="more(${suggestion.id})"><span id="name">${suggestion.name}</span><br><span id="suggestion">${suggestion.suggestion}</span></div>`
+                }
+                $('#reports').html(setMoreInfo);
+            });
+        }
+
+        function more(id) {
+            let suggestion = $(`#${id} #suggestion`).text(),
+                name = $(`#${id} #name`).text();
+            setMoreInfo = `<h2>${name}'s Suggestion</h2><p><span>Suggestion: </span>${suggestion}</p>`;
+            $('#case_info').html(linkify(setMoreInfo));
+        }
+
+        getSuggestions();
+    </script>
 <?php include "footer.php"; ?>
